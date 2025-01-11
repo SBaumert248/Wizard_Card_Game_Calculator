@@ -1,0 +1,71 @@
+<resources>
+    <string name="app_name">Wizard Helper</string>
+    <string name="action_settings">Einstellung</string>
+    <string name="cancel_actual_game">Beende aktuelles Spiel</string>
+    <!-- Strings used for fragments for navigation -->
+    <string name="first_fragment_label"> </string>
+    <string name="game_settings">Einstellung</string>
+    <string name="next">Next</string>
+    <string name="previous">Previous</string>
+    <string-array name="spinner_items">
+        <item>3 Spieler</item>
+        <item>4 Spieler</item>
+        <item>5 Spieler</item>
+        <item>6 Spieler</item>
+    </string-array>
+    <string name="master_mode">Master Modus</string>
+    <string name="show_last_num">Punkte der letzten Runde anzeigen</string>
+    <string name="num_players">Anzahl der Spieler:</string>
+    <string name="player_num_3">3 Spieler</string>
+    <string name="player_num_4">4 Spieler</string>
+    <string name="player_num_5">5 Spieler</string>
+    <string name="player_num_6">6 Spieler</string>
+    <string name="general_setting">Allgemein:</string>
+
+    <string name="act_round">"Runde: 1 / ??"</string>
+
+    <string name="last_points_player1">0</string>
+    <string name="player1">Spieler 1</string>
+    <string name="player1_think">"?"</string>
+    <string name="player1_get_win">"?"</string>
+    <string name="player1_points">"?"</string>
+
+    <string name="last_points_player2">0</string>
+    <string name="player2">Spieler 2</string>
+    <string name="player2_think">"?"</string>
+    <string name="player2_get_win">"?"</string>
+    <string name="player2_points">"?"</string>
+
+    <string name="last_points_player3">0</string>
+    <string name="player3">Spieler 3</string>
+    <string name="player3_think">"?"</string>
+    <string name="player3_get_win">"?"</string>
+    <string name="player3_points">"?"</string>
+
+    <string name="last_points_player4">0</string>
+    <string name="player4">Spieler 4</string>
+    <string name="player4_think">"?"</string>
+    <string name="player4_get_win">"?"</string>
+    <string name="player4_points">"?"</string>
+
+    <string name="last_points_player5">0</string>
+    <string name="player5">Spieler 5</string>
+    <string name="player5_think">"?"</string>
+    <string name="player5_get_win">"?"</string>
+    <string name="player5_points">"?"</string>
+
+    <string name="last_points_player6">0</string>
+    <string name="player6">Spieler 6</string>
+    <string name="player6_think">"?"</string>
+    <string name="player6_get_win">"?"</string>
+    <string name="player6_points">"?"</string>
+
+    <string name="act_player_rounds">"Runde: %d / %d"</string>
+    <string name="next_to_results">"Weiter"</string>
+    <string name="next_round">"Nächste Runde"</string>
+
+    <string name="choose_player">"Wähle Spielernamen"</string>
+    <string name="wrong_number_of_results">Zu ungültige Anzahl an Stiche wurde verteilt! Bitte überprüfe die Anzahl der verteilten Stiche.</string>
+    <string name="attention">Achtung</string>
+
+</resources>

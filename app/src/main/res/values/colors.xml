@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="settings_bkg">#BFB3B2B2</color>
+    <color name="settings_bkg_no_aplha">#B3B2B2</color>
+    <color name="default_yellow">#E3C800</color>
+    <color name="dark_yellow">#B09500</color>
+    <color name="text_color">#FF000000</color>
+    <color name="text_color_last_round">#FFE6E6E6</color>
+    <color name="selected_color">@color/default_yellow</color>
+    <color name="unselected_color">#565656</color>
+
+</resources>

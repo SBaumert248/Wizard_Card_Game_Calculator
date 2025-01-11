@@ -1,0 +1,384 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/game_area"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="View.FirstFragment">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="fill"
+        android:padding="16dp">
+
+        <TableLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:stretchColumns="1"
+            tools:layout_editor_absoluteX="16dp"
+            tools:layout_editor_absoluteY="16dp">
+
+            <TableRow
+                android:id="@+id/rowHeader"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:id="@+id/textActRound"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_column="1"
+                    android:layout_gravity="center_vertical"
+                    android:clickable="false"
+                    android:focusableInTouchMode="false"
+                    android:text="@string/choose_player"
+                    android:textColor="@color/text_color"
+                    android:textStyle="bold"
+                    android:textSize="22sp"
+                    android:typeface="serif" />
+
+                <ImageView
+                    android:id="@+id/imgThink"
+                    style="@style/ImgThink"
+                    android:layout_column="2"
+                    android:visibility="gone" />
+
+                <ImageView
+                    android:id="@+id/imgGet"
+                    style="@style/ImgGetWin"
+                    android:visibility="gone" />
+
+                <ImageView
+                    android:id="@+id/imgScore"
+                    style="@style/ImgScore"
+                    android:visibility="gone" />
+
+            </TableRow>
+
+            <TableRow
+                android:id="@+id/rowLastPointsPlayer1"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="8sp">
+
+                <TextView
+                    android:id="@+id/textLastPointsPlayer1"
+                    style="@style/TextViewLastPoints"
+                    android:layout_width="11dp"
+                    android:text="@string/last_points_player1" />
+            </TableRow>
+
+            <TableRow
+                android:id="@+id/rowPlayer1"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:visibility="visible">
+
+                <ImageView
+                    android:id="@+id/imgPlayer1Active"
+                    style="@style/ImgActivePlayerStyle"
+                    android:visibility="gone" />
+
+                <EditText
+                    android:id="@+id/namePlayer1"
+                    style="@style/EditPlayerNameStyle"
+                    android:text="@string/player1" />
+
+                <EditText
+                    android:id="@+id/editThinkPlayer1"
+                    style="@style/ActualEditPointsStyle"
+                    android:text="@string/player1_think"
+                    android:visibility="gone" />
+
+                <EditText
+                    android:id="@+id/editGetWinPlayer1"
+                    style="@style/ActualEditPointsStyle"
+                    android:text="@string/player1_get_win"
+                    android:visibility="gone" />
+
+                <TextView
+                    android:id="@+id/actPointsPlayer1"
+                    style="@style/ActualPointsStyle"
+                    android:text="@string/player1_points"
+                    android:visibility="gone" />
+            </TableRow>
+
+            <TableRow
+                android:id="@+id/rowLastPointsPlayer2"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="8sp">
+
+                <TextView
+                    android:id="@+id/textLastPointsPlayer2"
+                    style="@style/TextViewLastPoints"
+                    android:text="@string/last_points_player2" />
+
+            </TableRow>
+
+            <TableRow
+                android:id="@+id/rowPlayer2"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical">
+
+                <ImageView
+                    android:id="@+id/imgPlayer2Active"
+                    style="@style/ImgActivePlayerStyle"
+                    android:visibility="gone" />
+
+                <EditText
+                    android:id="@+id/namePlayer2"
+                    style="@style/EditPlayerNameStyle"
+                    android:text="@string/player2" />
+
+                <EditText
+                    android:id="@+id/editThinkPlayer2"
+                    style="@style/ActualEditPointsStyle"
+                    android:text="@string/player2_think"
+                    android:visibility="gone" />
+
+                <EditText
+                    android:id="@+id/editGetWinPlayer2"
+                    style="@style/ActualEditPointsStyle"
+                    android:text="@string/player2_get_win"
+                    android:visibility="gone" />
+
+                <TextView
+                    android:id="@+id/actPointsPlayer2"
+                    style="@style/ActualPointsStyle"
+                    android:text="@string/player2_points"
+                    android:visibility="gone" />
+
+            </TableRow>
+
+            <TableRow
+                android:id="@+id/rowLastPointsPlayer3"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="8sp">
+
+                <TextView
+                    android:id="@+id/textLastPointsPlayer3"
+                    style="@style/TextViewLastPoints"
+                    android:text="@string/last_points_player3" />
+            </TableRow>
+
+            <TableRow
+                android:id="@+id/rowPlayer3"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical">
+
+                <ImageView
+                    android:id="@+id/imgPlayer3Active"
+                    style="@style/ImgActivePlayerStyle"
+                    android:visibility="gone" />
+
+                <EditText
+                    android:id="@+id/namePlayer3"
+                    style="@style/EditPlayerNameStyle"
+                    android:text="@string/player3" />
+
+                <EditText
+                    android:id="@+id/editThinkPlayer3"
+                    style="@style/ActualEditPointsStyle"
+                    android:text="@string/player3_think"
+                    android:visibility="gone" />
+
+                <EditText
+                    android:id="@+id/editGetWinPlayer3"
+                    style="@style/ActualEditPointsStyle"
+                    android:text="@string/player3_get_win"
+                    android:visibility="gone" />
+
+                <TextView
+                    android:id="@+id/actPointsPlayer3"
+                    style="@style/ActualPointsStyle"
+                    android:text="@string/player3_points"
+                    android:visibility="gone" />
+            </TableRow>
+
+            <TableRow
+                android:id="@+id/rowLastPointsPlayer4"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="8sp">
+
+                <TextView
+                    android:id="@+id/textLastPointsPlayer4"
+                    style="@style/TextViewLastPoints"
+                    android:text="@string/last_points_player4" />
+            </TableRow>
+
+            <TableRow
+                android:id="@+id/rowPlayer4"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical">
+
+                <ImageView
+                    android:id="@+id/imgPlayer4Active"
+                    style="@style/ImgActivePlayerStyle"
+                    android:visibility="gone" />
+
+                <EditText
+                    android:id="@+id/namePlayer4"
+                    style="@style/EditPlayerNameStyle"
+                    android:text="@string/player4" />
+
+                <EditText
+                    android:id="@+id/editThinkPlayer4"
+                    style="@style/ActualEditPointsStyle"
+                    android:text="@string/player4_think"
+                    android:visibility="gone" />
+
+                <EditText
+                    android:id="@+id/editGetWinPlayer4"
+                    style="@style/ActualEditPointsStyle"
+                    android:text="@string/player4_get_win"
+                    android:visibility="gone" />
+
+                <TextView
+                    android:id="@+id/actPointsPlayer4"
+                    style="@style/ActualPointsStyle"
+                    android:text="@string/player4_points"
+                    android:visibility="gone" />
+            </TableRow>
+
+            <TableRow
+                android:id="@+id/rowLastPointsPlayer5"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="8sp">
+
+                <TextView
+                    android:id="@+id/textLastPointsPlayer5"
+                    style="@style/TextViewLastPoints"
+                    android:text="@string/last_points_player5" />
+            </TableRow>
+
+            <TableRow
+                android:id="@+id/rowPlayer5"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical">
+
+                <ImageView
+                    android:id="@+id/imgPlayer5Active"
+                    style="@style/ImgActivePlayerStyle"
+                    android:visibility="gone" />
+
+                <EditText
+                    android:id="@+id/namePlayer5"
+                    style="@style/EditPlayerNameStyle"
+                    android:text="@string/player5" />
+
+                <EditText
+                    android:id="@+id/editThinkPlayer5"
+                    style="@style/ActualEditPointsStyle"
+                    android:text="@string/player5_think"
+                    android:visibility="gone" />
+
+                <EditText
+                    android:id="@+id/editGetWinPlayer5"
+                    style="@style/ActualEditPointsStyle"
+                    android:text="@string/player5_get_win"
+                    android:visibility="gone" />
+
+                <TextView
+                    android:id="@+id/actPointsPlayer5"
+                    style="@style/ActualPointsStyle"
+                    android:text="@string/player5_points"
+                    android:visibility="gone" />
+            </TableRow>
+
+            <TableRow
+                android:id="@+id/rowLastPointsPlayer6"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="8sp">
+
+                <TextView
+                    android:id="@+id/textLastPointsPlayer6"
+                    style="@style/TextViewLastPoints"
+                    android:text="@string/last_points_player6" />
+            </TableRow>
+
+            <TableRow
+                android:id="@+id/rowPlayer6"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:gravity="center_vertical">
+
+                <ImageView
+                    android:id="@+id/imgPlayer6Active"
+                    style="@style/ImgActivePlayerStyle"
+                    android:visibility="gone" />
+
+                <EditText
+                    android:id="@+id/namePlayer6"
+                    style="@style/EditPlayerNameStyle"
+                    android:text="@string/player6" />
+
+                <EditText
+                    android:id="@+id/editThinkPlayer6"
+                    style="@style/ActualEditPointsStyle"
+                    android:text="@string/player6_think"
+                    android:visibility="gone" />
+
+                <EditText
+                    android:id="@+id/editGetWinPlayer6"
+                    style="@style/ActualEditPointsStyle"
+                    android:text="@string/player6_get_win"
+                    android:visibility="gone" />
+
+                <TextView
+                    android:id="@+id/actPointsPlayer6"
+                    style="@style/ActualPointsStyle"
+                    android:text="@string/player6_points"
+                    android:visibility="gone" />
+
+            </TableRow>
+
+            <TableRow
+                android:id="@+id/ButtomBtnBarSpace"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="8sp">
+
+                <TextView
+                    android:id="@+id/unused"
+                    style="@style/TextViewLastPoints"
+                    android:text="" />
+
+            </TableRow>
+
+            <TableRow
+                android:id="@+id/ButtomBtnBar"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:gravity="bottom">
+
+                <Button
+                    android:id="@+id/nextRoundBtn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_column="2"
+                    android:layout_marginRight="10dp"
+                    android:layout_span="3"
+                    android:paddingLeft="20dp"
+                    android:paddingRight="20dp"
+                    android:text="@string/next_round"
+                    android:textColor="@color/text_color"
+                    android:typeface="serif"
+                    android:visibility="invisible"
+                    app:backgroundTint="@color/default_yellow" />
+            </TableRow>
+
+        </TableLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.core.widget.NestedScrollView>

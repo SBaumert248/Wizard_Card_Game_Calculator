@@ -1,0 +1,49 @@
+{
+  "players": [
+    {
+      "name": "Bob",
+      "score": {
+        "predictions": [
+          1
+        ],
+        "results": [
+          1
+        ],
+        "scores": [
+          30
+        ]
+      }
+    },
+    {
+      "name": "Alice",
+      "score": {
+        "predictions": [
+          0
+        ],
+        "results": [
+          0
+        ],
+        "scores": [
+          20
+        ]
+      }
+    },
+    {
+      "name": "Charlie",
+      "score": {
+        "predictions": [
+          1
+        ],
+        "results": [
+          0
+        ],
+        "scores": [
+          -10
+        ]
+      }
+    }
+  ],
+  "roundNumber": 1,
+  "maxRoundNumber": 20,
+  "isGameRunning": true
+}

@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/settings_area"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="View.SecondFragment">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/settings_bkg"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/title_num_of_players"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20sp"
+            android:padding="10sp"
+            android:text="@string/num_players"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:textColor="@color/text_color"
+            android:typeface="serif"/>
+
+        <View
+            android:id="@+id/divider2"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="?android:attr/listDivider" />
+
+        <RadioGroup
+            android:id="@+id/rg_playerCount"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginStart="10sp"
+            android:layout_marginEnd="10sp"
+            android:layout_marginBottom="10sp"
+            android:checkedButton="@id/rb_6Player"
+            android:paddingStart="10sp"
+            android:paddingEnd="10sp"
+            android:textAlignment="center"
+            android:textColor="@color/text_color">
+
+            <RadioButton
+                android:id="@+id/rb_3Player"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:checked="true"
+                android:text="@string/player_num_3"
+                android:textAlignment="viewStart"
+                android:textSize="20sp"
+                android:typeface="serif"
+                android:textColor="@color/text_color"
+                app:buttonTint="@color/radio_button_color"/>
+
+            <View
+                android:id="@+id/divider4"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="2sp"
+                android:background="?android:attr/listDivider" />
+
+            <RadioButton
+                android:id="@+id/rb_4Player"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/player_num_4"
+                android:textAlignment="viewStart"
+                android:textSize="20sp"
+                android:typeface="serif"
+                android:textColor="@color/text_color"
+                app:buttonTint="@color/radio_button_color"/>
+
+            <View
+                android:id="@+id/divider5"
+                android:layout_width="match_parent"
+                android:layout_height="1sp"
+                android:layout_marginTop="2sp"
+                android:background="?android:attr/listDivider" />
+
+            <RadioButton
+                android:id="@+id/rb_5Player"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/player_num_5"
+                android:textAlignment="viewStart"
+                android:textSize="20sp"
+                android:typeface="serif"
+                android:textColor="@color/text_color"
+                app:buttonTint="@color/radio_button_color"/>
+
+            <View
+                android:id="@+id/divider6"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="2sp"
+                android:background="?android:attr/listDivider" />
+
+            <RadioButton
+                android:id="@+id/rb_6Player"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:checked="true"
+                android:text="@string/player_num_6"
+                android:textAlignment="viewStart"
+                android:textSize="20sp"
+                android:typeface="serif"
+                android:textColor="@color/text_color"
+                app:buttonTint="@color/radio_button_color"/>
+
+        </RadioGroup>
+
+        <View
+            android:id="@+id/divider"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="?android:attr/listDivider" />
+
+        <TextView
+            android:id="@+id/title_general_settings"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20sp"
+            android:padding="10sp"
+            android:text="@string/general_setting"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:textColor="@color/text_color"
+            android:typeface="serif"/>
+
+        <View
+            android:id="@+id/divider8"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="?android:attr/listDivider" />
+
+        <Switch
+            android:id="@+id/s_master_mode"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10sp"
+            android:checked="true"
+            android:elegantTextHeight="false"
+            android:gravity="center"
+            android:padding="16sp"
+            android:showText="false"
+            android:singleLine="false"
+            android:text="@string/master_mode"
+            android:textAlignment="viewStart"
+            android:textColor="@color/text_color"
+            android:textSize="20sp"
+            android:thumbTint="@color/switch_thumb_tint"
+            android:typeface="serif" />
+
+        <View
+            android:id="@+id/divider7"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginLeft="20sp"
+            android:layout_marginRight="20sp"
+            android:background="?android:attr/listDivider" />
+
+        <Switch
+            android:id="@+id/s_show_last_points"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10sp"
+            android:checked="true"
+            android:clickable="true"
+            android:elegantTextHeight="false"
+            android:padding="16sp"
+            android:text="@string/show_last_num"
+            android:textAlignment="viewStart"
+            android:textColor="@color/text_color"
+            android:textSize="20sp"
+            android:typeface="serif"
+            android:thumbTint="@color/switch_thumb_tint"/>
+
+        <View
+            android:id="@+id/divider3"
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:background="?android:attr/listDivider" />
+
+    </LinearLayout>
+</androidx.core.widget.NestedScrollView>

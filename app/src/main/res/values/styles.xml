@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="SpinnerTextStyle">
+        <item name="android:textSize">22sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/text_color</item>
+    </style>
+
+    <style name="TextViewLastPoints">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_column">4</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:textColor">@color/text_color</item>
+        <item name="android:textSize">22sp</item>
+        <item name="android:textStyle">italic</item>
+        <item name="android:visibility">invisible</item>
+    </style>
+
+    <style name="ImgActivePlayerStyle">
+        <item name="android:layout_width">32sp</item>
+        <item name="android:layout_height">32sp</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:src">@drawable/card</item>
+    </style>
+
+    <style name="ImgThink">
+        <item name="android:layout_width">32sp</item>
+        <item name="android:layout_height">32sp</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:src">@drawable/think</item>
+    </style>
+
+    <style name="ImgGetWin">
+        <item name="android:layout_width">32sp</item>
+        <item name="android:layout_height">32sp</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:src">@drawable/get_win</item>
+    </style>
+
+    <style name="ImgScore">
+        <item name="android:layout_width">32sp</item>
+        <item name="android:layout_height">32sp</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:src">@drawable/trophy</item>
+    </style>
+
+    <style name="EditPlayerNameStyle">
+        <item name="android:layout_width">180dp</item>
+        <item name="android:layout_height">50sp</item>
+        <item name="android:ems">10</item>
+        <item name="android:textAlignment">center</item>
+        <item name="android:textColor">@color/text_color</item>
+        <item name="android:textSize">22sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:typeface">serif</item>
+        <item name="android:inputType">text|textAutoComplete</item>
+        <item name="android:selectAllOnFocus">true</item>
+        <item name="android:background">@drawable/rounded_edit</item>
+        <item name="android:maxLength">10</item>
+    </style>
+
+    <style name="ActualPointsStyle">
+        <item name="android:layout_width">60sp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:ems">10</item>
+        <item name="android:inputType">number</item>
+        <item name="android:numeric">signed|decimal</item>
+        <item name="android:textAlignment">center</item>
+        <item name="android:textColor">@color/text_color</item>
+        <item name="android:textSize">22sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:typeface">serif</item>
+
+    </style>
+
+    <style name="ActualEditPointsStyle">
+        <item name="android:layout_width">45sp</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:ems">10</item>
+        <item name="android:inputType">number</item>
+        <item name="android:numeric">signed|decimal</item>
+        <item name="android:textAlignment">center</item>
+        <item name="android:textColor">@color/text_color</item>
+        <item name="android:textSize">22sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:typeface">serif</item>
+        <item name="android:background">@drawable/rounded_edit</item>
+        <item name="android:maxLength">2</item>
+        <item name="android:selectAllOnFocus">true</item>
+    </style>
+
+    <style name="CustomMenuText" parent="TextAppearance.AppCompat.Menu">
+        <item name="android:itemBackground">@color/settings_bkg_no_aplha</item>
+    </style>
+
+    <style name="CustomPopupMenu" parent="Widget.AppCompat.PopupMenu">
+        <!-- Hintergrundfarbe des Popup-Menüs -->
+        <item name="android:popupBackground">@color/settings_bkg_no_aplha</item>
+    </style>
+
+</resources>
