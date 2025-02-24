@@ -22,6 +22,7 @@ import com.example.Wizard_Helper_v2.Controller.WizardGame;
 import com.example.Wizard_Helper_v2.R;
 import com.example.Wizard_Helper_v2.databinding.FragmentFirstBinding;
 
+import java.text.NumberFormat;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -432,6 +433,19 @@ public class FirstFragment extends Fragment {
         }
     }
 
+    private Integer tryParseInt(String value){
+        try {
+            return Integer.parseInt(value);
+        } catch (NumberFormatException e) {
+            System.err.println("Ungültige Eingabe: " + value);
+            return null;
+        }
+    }
+
+    /*
+    Hier werden die Punkte Punktzahlen der Benutzer eingegeben und anschließend der NextRoundBtn
+    aktiviert
+     */
     private void setupTextChangeListeners() {
         // IDs der Eingabefelder
         int[] editFieldIds = {
@@ -472,34 +486,37 @@ public class FirstFragment extends Fragment {
                     public void afterTextChanged(Editable s) {
                         System.out.println("Bearbeitung beendet: " + id);
                         String currentValue = s.toString();
-                        String originalValue = originalValues.get(id);
-                        if (currentValue.isEmpty() || currentValue.contains("?") || currentValue.equals(originalValue)){
+                        String originalValue = "";
+                        if (originalValues.containsKey(id)) {
+                            originalValue = originalValues.get(id);
+                        }
+                        Integer value = tryParseInt(currentValue);
+                        if (currentValue.isEmpty() || currentValue.contains("?")
+                                || currentValue.equals(originalValue)
+                                || originalValue.isEmpty()
+                                || value == null){
                             return;
                         }
-                        int value = Integer.parseInt(currentValue);
+
                         String player = getPlayername(id);
                         // Wert wurde korrigiert
-                        if (originalValue != null) {
-                            if (!originalValue.contains("?")
-                                    && !originalValue.isEmpty()
-                                    && actRound == WizardGame.getInstance().getRoundNumber()) {
-                                // Korrektur der Vorhersage vom jeweiligen Spieler
+                        if (!originalValue.contains("?") && actRound == WizardGame.getInstance().getRoundNumber()) {
+                            // Korrektur der Vorhersage vom jeweiligen Spieler
 
-                                if (isPredictionEdit(id)) {
-                                    WizardGame.getInstance().correctPrediction(player, value);
-                                }
-                                if (isResultEdit(id)) {
-                                    WizardGame.getInstance().correctResult(player, value);
-                                }
+                            if (isPredictionEdit(id)) {
+                                WizardGame.getInstance().correctPrediction(player, value);
+                            }
+                            if (isResultEdit(id)) {
+                                WizardGame.getInstance().correctResult(player, value);
+                            }
 
-                                // Neuen Wert setzen
-                            } else {
-                                if (isPredictionEdit(id)) {
-                                    WizardGame.getInstance().setPrediction(player, value);
-                                }
-                                if (isResultEdit(id)) {
-                                    WizardGame.getInstance().setResult(player, value);
-                                }
+                            // Neuen Wert setzen
+                        } else {
+                            if (isPredictionEdit(id)) {
+                                WizardGame.getInstance().setPrediction(player, value);
+                            }
+                            if (isResultEdit(id)) {
+                                WizardGame.getInstance().setResult(player, value);
                             }
                         }
                         if (WizardGame.getInstance().playerDone(player)) {
