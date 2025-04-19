@@ -64,12 +64,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void restoreGame(){
-        WizardGame.loadFromJson(this.savefile);
+        WizardGame.getInstance().loadFromJson(this.savefile);
         if (WizardGame.getInstance().isRunning()){
-            int playerCount = WizardGame.getInstance().getPlayers().size();
+            int playerCount = WizardGame.getInstance().numOfPlayer();
             this.setStartGameButtonVisibility(false);
             notifyFirstFragmentGameStarted(playerCount);
-            this.loadPlayer();
+            this.loadPlayerData();
             invalidateOptionsMenu();
         }
     }
@@ -120,7 +120,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public void loadPlayer(){
+    public void loadPlayerData(){
         Fragment gameArea = this.getGameFragment();
         if (gameArea instanceof FirstFragment){
             ((FirstFragment) gameArea).loadLastGame();
@@ -157,7 +157,7 @@ public class MainActivity extends AppCompatActivity {
             }
             Fragment gameArea = this.getGameFragment();
             if (gameArea instanceof FirstFragment){
-                int playerCount = WizardGame.getInstance().getPlayers().size();
+                int playerCount = WizardGame.getInstance().numOfPlayer();
                 ((FirstFragment) gameArea).setPlayerFields(playerCount, false);
                 ((FirstFragment) gameArea).updatePlayerCountMessage(true);
                 binding.startGameBtn.setVisibility(View.VISIBLE);

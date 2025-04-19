@@ -1,49 +1,221 @@
 {
-  "players": [
-    {
-      "name": "Bob",
-      "score": {
-        "predictions": [
-          1
-        ],
-        "results": [
-          1
-        ],
-        "scores": [
-          30
-        ]
-      }
-    },
-    {
-      "name": "Alice",
-      "score": {
-        "predictions": [
-          0
-        ],
-        "results": [
-          0
-        ],
-        "scores": [
-          20
-        ]
-      }
-    },
-    {
-      "name": "Charlie",
-      "score": {
-        "predictions": [
-          1
-        ],
-        "results": [
-          0
-        ],
-        "scores": [
-          -10
-        ]
-      }
-    }
+  "playerIds": [
+    1,
+    2,
+    3
   ],
-  "roundNumber": 1,
+  "playerScores": {
+    "1": {
+      "predictions": [
+        1,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "results": [
+        1,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "scores": [
+        30,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
+      ]
+    },
+    "2": {
+      "predictions": [
+        0,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "results": [
+        0,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "scores": [
+        20,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
+      ]
+    },
+    "3": {
+      "predictions": [
+        1,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "results": [
+        0,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "scores": [
+        -10,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
+      ]
+    }
+  },
+  "playernames": {
+    "1": "Bob",
+    "2": "Alice",
+    "3": "Charlie"
+  },
+  "roundNumber": 0,
   "maxRoundNumber": 20,
   "isGameRunning": true
 }
