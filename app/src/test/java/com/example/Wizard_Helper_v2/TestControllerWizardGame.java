@@ -11,7 +11,6 @@ import org.junit.jupiter.api.Test;
 
 class TestControllerWizardGame {
 
-
     private final WizardGame game = WizardGame.getInstance();
 
     @BeforeEach
@@ -22,8 +21,8 @@ class TestControllerWizardGame {
     @Test
     void init_game() {
         assertFalse(game.canStart());
-        assertEquals(1, game.getRoundNumber(), "Actual round number should 1");
-        assertEquals(0, game.getPlayers().size(), "Number of Players should be 0");
+        assertEquals(0, game.getRoundNumber(), "Actual round number should 0");
+        assertEquals(0, game.numOfPlayer(), "Number of Players should be 0");
     }
 
     @Test
@@ -66,81 +65,184 @@ class TestControllerWizardGame {
 
     @Test
     void add_player(){
-        game.addPlayer("Bob");
-        game.addPlayer("Alice");
-        game.addPlayer("Charlie");
-        assertEquals(3, game.getPlayers().size(), "Number of Player should be 3");
+        game.startGame(3);
+
+        game.addPlayer("Bob", 1);
+        game.addPlayer("Alice", 2);
+        game.addPlayer("Charlie", 3);
+        assertEquals(3, game.numOfPlayer(), "Number of Player should be 3");
     }
 
     @Test
     void get_score_for_valid_player(){
-        game.addPlayer("Bob");
-        game.setPrediction("Bob", 1);
-        game.setResult("Bob", 1);
-        assertEquals(30, game.getScore("Bob"), "Score of 'Bob' should be 30");
+        game.startGame(4);
+
+        game.addPlayer("Bob", 1);
+        game.setPrediction(1, 1, 0);
+        game.setResult(1, 1, 0);
+        assertEquals(30, game.getScore(1, 0), "Score of 'Bob' should be 30");
         game.nextRound();
-        game.setPrediction("Bob", 2);
-        game.setResult("Bob", 2);
-        assertEquals(70, game.getScore("Bob"), "Score of 'Bob' should be 70");
+        game.setPrediction(1, 2,1);
+        game.setResult(1, 2,1);
+        assertEquals(70, game.getScore(1, 1), "Score of 'Bob' should be 70");
     }
 
     @Test
     void get_score_for_invalid_player(){
-        game.addPlayer("Bob");
-        game.setPrediction("Bob", 1);
-        game.setResult("Bob", 1);
-        assertEquals(-1, game.getScore("Hans"), "Score of 'Hans' should be -1");
+        game.startGame(4);
+
+        game.addPlayer("Bob", 1);
+        game.setPrediction(1,1, 0);
+        game.setResult(1, 1, 0);
+        assertEquals(-1, game.getScore(999, 0), "Score of PlayerId 999 should be -1");
     }
 
     @Test
     void get_score_calculation_check(){
-        game.addPlayer("Bob");
-        game.setPrediction("Bob", 10);
-        game.setResult("Bob", 1);
-        assertEquals(-90, game.getScore("Bob"), "Score of 'Bob' should be -90");
-        game.addPlayer("Bob");
-        game.setPrediction("Bob", 1);
-        game.setResult("Bob", 1);
-        assertEquals(-60, game.getScore("Bob"), "Score of 'Bob' should be -60");
+        game.startGame(4);
+
+        game.addPlayer("Bob", 1);
+        game.setPrediction(1, 10, 0);
+        game.setResult(1, 1, 0);
+        assertEquals(-90, game.getScore(1, 0), "Score of 'Bob' should be -90");
+
+        game.setPrediction(1, 1, 1);
+        game.setResult(1,1, 1);
+        assertEquals(-60, game.getScore(1, 1), "Score of 'Bob' should be -60");
     }
 
     void save_json(){
-        game.addPlayer("Bob");
-        game.addPlayer("Alice");
-        game.addPlayer("Charlie");
         game.startGame(3);
-        game.setPrediction("Bob", 1);
-        game.setPrediction("Alice", 0);
-        game.setPrediction("Charlie", 1);
-        game.setResult("Bob", 1);
-        game.setResult("Alice", 0);
-        game.setResult("Charlie", 0);
-        game.getScore("Bob");
-        game.getScore("Alice");
-        game.getScore("Charlie");
+
+        game.addPlayer("Bob", 1);
+        game.addPlayer("Alice", 2);
+        game.addPlayer("Charlie", 3);
+
+        game.setPrediction(1, 1, 0);
+        game.setPrediction(2, 0, 0);
+        game.setPrediction(3, 1, 0);
+
+        game.setResult(1, 1, 0);
+        game.setResult(2, 0, 0);
+        game.setResult(3, 0, 0);
+
+        game.getScore(1, 0);
+        game.getScore(2, 0);
+        game.getScore(3, 0);
 
         game.saveToJson(".\\testfile.json");
-
     }
 
     @Test
     void load_json(){
         this.save_json();
-        assertEquals(3, game.getPlayers().size());
+        game.loadFromJson(".\\testfile.json");
+
+        assertEquals(3, game.numOfPlayer());
         assertTrue(game.isRunning());
-        assertEquals(1, game.getRoundNumber());
+
+        assertEquals(0, game.getRoundNumber());
         assertEquals(20, game.getMaxRoundNumber());
-        assertEquals("Bob", game.getPlayers().get(0).getName());
-        assertEquals(30, game.getPlayers().get(0).getScore());
-        assertEquals("Alice", game.getPlayers().get(1).getName());
-        assertEquals(20, game.getPlayers().get(1).getScore());
-        assertEquals("Charlie", game.getPlayers().get(2).getName());
-        assertEquals(-10, game.getPlayers().get(2).getScore());
+
+        assertEquals("Bob", game.getPlayerName(1));
+        assertEquals(30, game.getScore(1, 0));
+        assertEquals("Alice", game.getPlayerName(2));
+        assertEquals(20, game.getScore(2, 0));
+        assertEquals("Charlie", game.getPlayerName(3));
+        assertEquals(-10, game.getScore(3, 0));
     }
 
-    //TODO: test for isGameFinished
-    //TODO: test for allPlayerDone
-    //TODO: test for nextRound
-    //TODO: test for resetGame
+    @Test
+    void test_all_player_done(){
+        game.startGame(3);
 
+        game.addPlayer("Bob", 1);
+        game.addPlayer("Alice", 2);
+        game.addPlayer("Charlie", 3);
+
+        game.setPrediction(1, 1, 0);
+        game.setPrediction(2, 0, 0);
+        game.setPrediction(3, 1, 0);
+
+        game.setResult(1, 1, 0);
+        game.setResult(2, 0, 0);
+        game.setResult(3, 0, 0);
+
+        game.getScore(1, 0);
+        game.getScore(2, 0);
+        game.getScore(3, 0);
+
+        assertTrue(game.allPlayerDone());
+    }
+
+    @Test
+    void test_not_all_player_done(){
+        game.startGame(3);
+
+        game.addPlayer("Bob", 1);
+        game.addPlayer("Alice", 2);
+        game.addPlayer("Charlie", 3);
+
+        game.setPrediction(1, 1, 0);
+        game.setPrediction(2, 0, 0);
+        game.setPrediction(3, 1, 0);
+
+        game.setResult(1, 1, 0);
+        game.setResult(3, 0, 0);
+
+        game.getScore(1, 0);
+        game.getScore(3, 0);
+
+        assertFalse(game.allPlayerDone());
+    }
+
+    @Test
+    void test_reset_game(){
+        game.startGame(3);
+
+        game.addPlayer("Bob", 1);
+        game.addPlayer("Alice", 2);
+        game.addPlayer("Charlie", 3);
+
+        game.setPrediction(1, 1, 0);
+        game.setPrediction(2, 0, 0);
+        game.setPrediction(3, 1, 0);
+
+        game.setResult(1, 1, 0);
+        game.setResult(3, 0, 0);
+
+        game.getScore(1, 0);
+        game.getScore(3, 0);
+
+        assertFalse(game.allPlayerDone());
+    }
+
+    @Test
+    void test_isGameFinished(){
+        game.startGame(3);
+
+        game.addPlayer("Bob", 1);
+        game.addPlayer("Alice", 2);
+        game.addPlayer("Charlie", 3);
+
+        assertFalse(game.isFinished());
+
+        for (int round = 0; round < game.getMaxRoundNumber(); round++){
+            game.setPrediction(1, round+1, round);
+            game.setPrediction(2, 0, round);
+            game.setPrediction(3, 1, round);
+
+            game.setResult(1, round+1, round);
+            game.setResult(2, 0, round);
+            game.setResult(3, 0, round);
+
+            game.getScore(1, round);
+            game.getScore(2, round);
+            game.getScore(3, round);
+
+            game.nextRound();
+        }
+
+        assertTrue(game.isFinished());
+    }
 }

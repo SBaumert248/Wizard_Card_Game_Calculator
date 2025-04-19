@@ -1,8 +1,9 @@
 package com.example.Wizard_Helper_v2.Controller;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.ArrayList;
-import java.util.Objects;
+import java.util.Map;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -11,21 +12,24 @@ import java.io.File;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-import com.example.Wizard_Helper_v2.Model.Player;
+import com.example.Wizard_Helper_v2.Model.Points;
 
 public class WizardGame {
 
     private static WizardGame instance;
-    private final ArrayList<Player> players;
+    private final ArrayList<Integer> playerIds;
+    private final Map<Integer, Points> playerScores;
+    private final Map<Integer, String> playernames;
     private int roundNumber;
     private int maxRoundNumber;
     private boolean isGameRunning;
 
+
     private WizardGame() {
-        this.roundNumber = 1;
-        this.maxRoundNumber = -1;
-        this.players = new ArrayList<>();
-        this.isGameRunning = false;
+        this.playerIds = new ArrayList<>();
+        this.playerScores = new HashMap<>();
+        this.playernames = new HashMap<>();
+        this.resetGame();
     }
 
     // Öffentliche statische Methode, um die Instanz zu erhalten
@@ -48,18 +52,41 @@ public class WizardGame {
     }
 
     // Funktion zum Laden aus einer JSON-Datei
-    public static void loadFromJson(String filePath) {
-        Gson gson = new Gson();
+    public void loadFromJson(String filePath) {
         File file = new File(filePath);
-        if (!file.exists())
+        if (!file.exists()) {
+            System.err.println("Datei nicht gefunden: " + filePath);
             return;
-        try (FileReader reader = new FileReader(filePath)) {
-            instance = gson.fromJson(reader, WizardGame.class);
-            instance.removeTooMuchPlayer();
+        }
+
+        try (FileReader r = new FileReader(filePath)) {
+            Gson gson = new Gson();
+
+            // 1) JSON --> temporäres Objekt
+            WizardGame loadedGame = gson.fromJson(r, WizardGame.class);
+            if (loadedGame == null) {
+                throw new IOException("JSON leer oder nicht kompatibel: " + filePath);
+            }
+
+            // 2) Aktuelle Instanz zurücksetzen und befüllen
+            this.resetGame();
+            this.copyFrom(loadedGame);
+
             System.out.println("Daten erfolgreich geladen aus " + filePath);
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    /** Übernimmt persistente Felder von `other` in **diese** Instanz. */
+    private void copyFrom(WizardGame other) {
+        this.playernames.putAll(other.playernames);
+        this.playerScores.putAll(other.playerScores);
+        this.playerIds.addAll(other.playerIds);
+        this.roundNumber = other.roundNumber;
+        this.maxRoundNumber = other.maxRoundNumber;
+        this.isGameRunning = other.isGameRunning;
+        /* … weitere Felder … */
     }
 
     public void startGame(int playerCount) {
@@ -73,94 +100,76 @@ public class WizardGame {
         this.isGameRunning = true;
     }
 
-    private void removeTooMuchPlayer(){
-        int maxPlayer = switch (this.maxRoundNumber) {
-            case 20 -> 3;
-            case 15 -> 4;
-            case 12 -> 5;
-            case 10 -> 6;
-            default -> -1;
-        };
-        if (maxPlayer == -1){
-            return;
-        }
-        // Rückwärts durch die Liste iterieren, um sicher zu entfernen
-        for (int idx = this.players.size() - 1; idx >= maxPlayer; idx--) {
-            this.players.remove(idx);
-        }
-    }
+    public void addPlayer(String name, int id) {
+        this.playernames.remove(id);
+        this.playernames.put(id, name);
 
-    public void addPlayer(String name){
-        Player player = new Player(name);
-        this.players.add(player);
+        if (!this.playerIds.contains(id))
+            this.playerIds.add(id);
+
+        if (!this.playerScores.containsKey(id))
+            this.playerScores.put(id, new Points(this.maxRoundNumber));
     }
 
     public void resetGame(){
-        this.players.clear();
-        this.roundNumber = 1;
+        this.playerIds.clear();
+        this.playerScores.clear();
+        this.playernames.clear();
+        this.roundNumber = 0;
         this.maxRoundNumber = -1;
         this.isGameRunning = false;
     }
 
-    private Player getPlayer(String name){
-        for (Player p: this.players) {
-            if (Objects.equals(p.getName(), name)){
-                return p;
+    public void setPrediction(int playerId, int value, int round){
+        if (playerId == -1)
+            return;
+        Points score = this.playerScores.get(playerId);
+        if (score != null) {
+            score.setPrediction(value, round);
+        }
+    }
+
+    public void setResult(int playerId,int value, int round) {
+        if (playerId == -1)
+            return;
+        Points score = this.playerScores.get(playerId);
+        if (score != null) {
+            score.setResult(value, round);
+        }
+    }
+
+    public int getScore(int playerId, int round){
+        if (playerId > -1) {
+            Points score = this.playerScores.get(playerId);
+            if (score != null) {
+                return score.getScore(round);
             }
-        }
-        return null;
-    }
-
-    public void setPrediction(String playerName, int value){
-        Player player = this.getPlayer(playerName);
-        if (player != null) {
-            player.addPrediction(value);
-        }
-    }
-
-    public void correctPrediction(String playerName, int value){
-        Player player = this.getPlayer(playerName);
-        if (player != null) {
-            player.removeLastPrecition();
-            player.addPrediction(value);
-        }
-    }
-
-    public void setResult(String playerName, int value) {
-        Player player = this.getPlayer(playerName);
-        if (player != null) {
-            player.addResult(value);
-        }
-    }
-
-    public void correctResult(String playerName, int value){
-        Player player = this.getPlayer(playerName);
-        if (player != null) {
-            player.removeLastResult();
-            player.addResult(value);
-        }
-    }
-
-    public int getScore(String playerName){
-        Player player = this.getPlayer(playerName);
-        if (player != null) {
-            return player.getScore();
         }
         return -1;
     }
 
-    public int getScoreOfRound(String playerName, int round){
-        Player player = this.getPlayer(playerName);
-        if (round < 1 || round > this.maxRoundNumber || player == null){
-            return -1;
-        }
-        return player.getScoreOfRound(round);
+    public String getPlayerName(int id){
+        return this.playernames.get(id);
     }
 
-    public List<Player> getPlayers() {
-        return players;
+    public int numOfPlayer() {
+        return switch (this.maxRoundNumber) {
+            case 20 -> 3;
+            case 15 -> 4;
+            case 12 -> 5;
+            case 10 -> 6;
+            default -> 0;
+        };
     }
 
+    /**
+     * Liefert die aktuelle Rundennummer.
+     *
+     * <p><strong>Wichtig:</strong> Die Zählung beginnt bei {@code 0} statt {@code 1},
+     * da die zugrunde liegenden Arrays nullbasiert sind.</p>
+     *
+     * @return die aktuelle (nullbasierte) Rundennummer
+     */
     public int getRoundNumber(){
         return this.roundNumber;
     }
@@ -169,20 +178,35 @@ public class WizardGame {
         return this.maxRoundNumber;
     }
 
-    public int getActPrediction(String playerName){
-        Player player = this.getPlayer(playerName);
-        if (player == null){
-            return -1;
+    public int getActScore(int playerId){
+        if (playerId > -1) {
+            Points score = this.playerScores.get(playerId);
+            if (score != null) {
+                return score.getScore(this.roundNumber);
+            }
         }
-        return player.getPrediction();
+        return -1;
     }
 
-    public int getActResult(String playerName){
-        Player player = this.getPlayer(playerName);
-        if (player == null){
-            return -1;
+    public int getActPrediction(int playerId){
+        if (playerId > -1) {
+            Points score = this.playerScores.get(playerId);
+            if (score != null) {
+                return score.getPrediction(this.roundNumber);
+            }
         }
-        return player.getResult();
+        return -1;
+    }
+
+    public int getActResult(int playerId){
+        if (playerId > -1) {
+            Points score = this.playerScores.get(playerId);
+            if (score != null) {
+                return score.getResult(this.roundNumber);
+            }
+        }
+        return -1;
+
     }
 
     public boolean isRunning(){ return this.isGameRunning;}
@@ -191,28 +215,55 @@ public class WizardGame {
         return this.maxRoundNumber > -1;
     }
 
+    /**
+     * Gibt an, ob das gesamte Spiel beendet ist.
+     *
+     * <p>Ein Spiel gilt als abgeschlossen, wenn</p>
+     * <ul>
+     *   <li>die aktuelle Runde die letzte vorgesehene Runde ist
+     *       ({@code roundNumber + 1 == maxRoundNumber}) <em>und</em></li>
+     *   <li>alle Spieler ihre Einträge für diese Runde abgeschlossen haben
+     *       ({@code allPlayerDone() == true}).</li>
+     * </ul>
+     *
+     * <p>Auch hier ist {@code roundNumber} nullbasiert; daher wird für
+     * Vergleiche stets {@code roundNumber + 1} verwendet.</p>
+     *
+     * @return {@code true}, wenn keine weiteren Runden mehr gespielt werden
+     *         müssen und alle Spieler fertig sind; sonst {@code false}
+     */
     public boolean isFinished(){
-        return this.maxRoundNumber == this.roundNumber && this.allPlayerDone();
+        return this.maxRoundNumber == this.roundNumber+1 && this.allPlayerDone();
     }
 
     public boolean allPlayerDone(){
         boolean allDone = true;
-        for (Player p: this.players) {
-            allDone = allDone && p.isDone(this.roundNumber);
+        for (int id: this.playerIds){
+            allDone = allDone && this.playerDone(id);
         }
         return allDone;
     }
 
-    public boolean playerDone(String playerName){
-        Player player = this.getPlayer(playerName);
-        if (player != null){
-            return player.isDone(this.roundNumber);
-        }
-        return false;
+    /**
+     * Prüft, ob der angegebene Spieler bereits alle Ergebnisse / Stiche / Gebote
+     * bis einschließlich der aktuellen Runde eingetragen hat.
+     *
+     * <p><strong>Nullbasierte Rundenzählung:</strong>
+     * {@code roundNumber} startet bei {@code 0}.
+     * Darum muss ein Spieler nach Runde <code>n</code> genau
+     * <code>n + 1</code> Einträge besitzen, um als »fertig« zu gelten.</p>
+     *
+     * @param playerId die eindeutige ID des Spielers
+     * @return {@code true}, wenn der Spieler für jede bisher gespielte Runde
+     *         einen Eintrag hat; andernfalls {@code false}
+     */
+    public boolean playerDone(int playerId){
+        Points playerScore = this.playerScores.get(playerId);
+        return playerScore.countOfScore() == this.roundNumber+1;
     }
 
     public void nextRound(){
-        if (this.roundNumber < this.maxRoundNumber) {
+        if (this.roundNumber+1 < this.maxRoundNumber) {
             this.roundNumber++;
         }
     }
