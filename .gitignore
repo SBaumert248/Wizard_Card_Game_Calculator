@@ -85,6 +85,7 @@ outTmp/
 kotlin-ide/
 .kotlin/
 .teamcity/
+app/release/
 
 # gradle
 .gradle
@@ -110,3 +111,4 @@ gradle-app.setting
 .classpath
 .idea
 deviceStreaming.xml
+*.apk
