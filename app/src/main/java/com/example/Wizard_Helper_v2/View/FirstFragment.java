@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import android.content.Context;
+import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -139,8 +140,8 @@ public class FirstFragment extends Fragment {
 
         binding = FragmentFirstBinding.inflate(inflater, container, false);
         this.loadLastUsedPlayernames();
-        return binding.getRoot();
 
+        return binding.getRoot();
     }
 
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
@@ -176,6 +177,7 @@ public class FirstFragment extends Fragment {
                 this.resetActScoreText();
             }
         });
+
     }
 
     public void showStartBtn(){
@@ -266,6 +268,12 @@ public class FirstFragment extends Fragment {
         togglePlayerVisibility(playerCount);
     }
 
+    private void setNextFocusId(EditText editText, int firstId){
+        editText.setNextFocusForwardId(firstId);
+        editText.setNextFocusDownId(firstId);
+        editText.setImeOptions(EditorInfo.IME_ACTION_NEXT);
+    }
+
     public void togglePlayerVisibility(int playerCount) {
         int[] playerRowIds = {
                 R.id.rowPlayer1,
@@ -298,6 +306,25 @@ public class FirstFragment extends Fragment {
                 emptyRow.setVisibility(i < playerCount ? View.VISIBLE : View.GONE);
             }
 
+        }
+
+        if (playerCount == 3){
+            this.setNextFocusId(binding.namePlayer3, binding.namePlayer1.getId());
+            this.setNextFocusId(binding.editThinkPlayer3, binding.editThinkPlayer1.getId());
+            this.setNextFocusId(binding.editGetWinPlayer3, binding.editGetWinPlayer1.getId());
+
+        } else if (playerCount == 4) {
+            this.setNextFocusId(binding.namePlayer4, binding.namePlayer1.getId());
+            this.setNextFocusId(binding.editThinkPlayer4, binding.editThinkPlayer1.getId());
+            this.setNextFocusId(binding.editGetWinPlayer4, binding.editGetWinPlayer1.getId());
+        } else if (playerCount == 5) {
+            this.setNextFocusId(binding.namePlayer5, binding.namePlayer1.getId());
+            this.setNextFocusId(binding.editThinkPlayer5, binding.editThinkPlayer1.getId());
+            this.setNextFocusId(binding.editGetWinPlayer5, binding.editGetWinPlayer1.getId());
+        } else {
+            this.setNextFocusId(binding.namePlayer6, binding.namePlayer1.getId());
+            this.setNextFocusId(binding.editThinkPlayer6, binding.editThinkPlayer1.getId());
+            this.setNextFocusId(binding.editGetWinPlayer6, binding.editGetWinPlayer1.getId());
         }
     }
 
@@ -454,6 +481,25 @@ public class FirstFragment extends Fragment {
         } else {
             roundView.setText(R.string.choose_player);
         }
+
+//        int firstId = binding.editThinkPlayer1.getId();
+//        if (playerCount == 3){
+//            binding.editThinkPlayer3.setNextFocusForwardId(firstId);
+//            binding.editThinkPlayer3.setNextFocusDownId(firstId);
+//            binding.editThinkPlayer3.setImeOptions(EditorInfo.IME_ACTION_NEXT);
+//        } else if (playerCount == 4) {
+//            binding.editThinkPlayer4.setNextFocusForwardId(firstId);
+//            binding.editThinkPlayer4.setNextFocusDownId(firstId);
+//            binding.editThinkPlayer4.setImeOptions(EditorInfo.IME_ACTION_NEXT);
+//        } else if (playerCount == 5) {
+//            binding.editThinkPlayer5.setNextFocusForwardId(firstId);
+//            binding.editThinkPlayer5.setNextFocusDownId(firstId);
+//            binding.editThinkPlayer5.setImeOptions(EditorInfo.IME_ACTION_NEXT);
+//        } else {
+//            binding.editThinkPlayer6.setNextFocusForwardId(firstId);
+//            binding.editThinkPlayer6.setNextFocusDownId(firstId);
+//            binding.editThinkPlayer6.setImeOptions(EditorInfo.IME_ACTION_NEXT);
+//        }
     }
 
     private Integer tryParseInt(String value){

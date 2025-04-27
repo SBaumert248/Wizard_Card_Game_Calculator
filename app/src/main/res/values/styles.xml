@@ -57,7 +57,7 @@
         <item name="android:typeface">serif</item>
         <item name="android:inputType">text|textAutoComplete</item>
         <item name="android:selectAllOnFocus">true</item>
-        <item name="android:background">@drawable/rounded_edit</item>
+        <item name="android:background">@drawable/rounded_edit_selector</item>
         <item name="android:maxLength">10</item>
     </style>
 
@@ -89,7 +89,7 @@
         <item name="android:textStyle">bold</item>
         <item name="android:singleLine">true</item>
         <item name="android:typeface">serif</item>
-        <item name="android:background">@drawable/rounded_edit</item>
+        <item name="android:background">@drawable/rounded_edit_selector</item>
         <item name="android:maxLength">2</item>
         <item name="android:selectAllOnFocus">true</item>
     </style>
