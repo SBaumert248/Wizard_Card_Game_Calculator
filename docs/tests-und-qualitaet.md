@@ -64,7 +64,9 @@ Lücken zwischen Runden und die Stichsummenregel des Master-Modus ab.
 - erneute Verfügbarkeit des Drei-Punkte-Menüs nach der Rückkehr sowie
 - Markierung ausschließlich der aktuellen Runde in der Verlaufstabelle und
 - korrekte Anzeige von `0` Stichen und negativen Punkteständen für alle
-  Spieler nach einem Rundenwechsel.
+  Spieler nach einem Rundenwechsel sowie
+- Übernahme der abgeschlossenen Punktestände aller Spieler in die
+  Vor-Runden-Anzeige der Hauptspielansicht.
 
 Jeder Test löscht zuvor gezielt Einstellungen, Spielernamen, `game.json` und
 den Singleton-Zustand. Dadurch sind die Tests voneinander und von zuvor

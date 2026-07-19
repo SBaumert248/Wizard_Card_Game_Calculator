@@ -156,8 +156,6 @@ public class FirstFragment extends Fragment {
         binding.nextRoundBtn.setOnClickListener(v -> {
             WizardGame.getInstance().nextRound();
             this.updatePlayerCountMessage(false);
-            this.setPlayerFields(WizardGame.getInstance().numOfPlayer(), true);
-            binding.nextRoundBtn.setVisibility(View.GONE);
             SharedPreferences sharedPreferences = requireActivity().getSharedPreferences("Setting", Context.MODE_PRIVATE);
             boolean showLastPoints = sharedPreferences.getBoolean("show_last_points", true);
             if (showLastPoints){
@@ -165,6 +163,8 @@ public class FirstFragment extends Fragment {
             } else {
                 this.resetActScoreText();
             }
+            this.setPlayerFields(WizardGame.getInstance().numOfPlayer(), true);
+            binding.nextRoundBtn.setVisibility(View.GONE);
         });
 
         if (WizardGame.getInstance().isRunning()) {

@@ -151,6 +151,11 @@ public class WizardGameUiTest {
                 new String[]{"1", "0", "0", "0"}
         );
         onView(withId(R.id.nextRoundBtn)).perform(scrollTo(), click());
+        onView(withId(R.id.textLastPointsPlayer1)).check(matches(withText("30")));
+        onView(withId(R.id.textLastPointsPlayer1)).check(matches(isDisplayed()));
+        onView(withId(R.id.textLastPointsPlayer2)).check(matches(withText("-10")));
+        onView(withId(R.id.textLastPointsPlayer3)).check(matches(withText("-10")));
+        onView(withId(R.id.textLastPointsPlayer4)).check(matches(withText("-10")));
         openGameHistory();
 
         onView(withContentDescription("Ansage von Spieler1")).check(matches(isDisplayed()));
