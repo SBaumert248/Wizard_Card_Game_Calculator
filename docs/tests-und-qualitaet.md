@@ -58,7 +58,9 @@ Lücken zwischen Runden und die Stichsummenregel des Master-Modus ab.
 - 20 Verlaufszeilen und drei Spielergruppen bei einer Partie mit drei
   Spielern sowie
 - korrekte Verlaufssymbole, aktuelle Eingaben, kumulierte Punkte und leere
-  Zukunftswerte.
+  Zukunftswerte sowie
+- Rückkehr aus der Verlaufsansicht zur weiterhin vollständig befüllten
+  Hauptspielansicht.
 
 Jeder Test löscht zuvor gezielt Einstellungen, Spielernamen, `game.json` und
 den Singleton-Zustand. Dadurch sind die Tests voneinander und von zuvor
@@ -112,9 +114,9 @@ Kombinierter Stand nach 42 Unit-Tests und sechs UI-Tests:
 | --- | ---: |
 | Model | 100,0 % |
 | Controller | 95,0 % |
-| View | 90,5 % |
-| Gesamt | 92,4 % |
-| Branches gesamt | 73,5 % |
+| View | 91,8 % |
+| Gesamt | 93,3 % |
+| Branches gesamt | 76,8 % |
 
 Der reine Unit-Test-Bericht bleibt bewusst verfügbar, weil er schnell und ohne
 Android-Gerät ausgeführt werden kann. Der kombinierte Bericht ergänzt die

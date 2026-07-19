@@ -77,7 +77,7 @@ schreibt sie in `onPause()` in die Preferences-Datei `Setting`.
 ### `GameHistoryFragment`
 
 Die Verlaufsansicht wird ausschließlich während einer laufenden Partie über
-die Toolbar geöffnet. Sie erzeugt ihre `TableLayout`-Zeilen und -Spalten
+das Overflow-Menü geöffnet. Sie erzeugt ihre `TableLayout`-Zeilen und -Spalten
 dynamisch aus der geordneten Spieler-ID-Liste und der maximalen Rundenzahl in
 `WizardGame`. Pro Spieler werden Ansage, Ergebnis und kumulierter Punktestand
 angezeigt. Die Ansicht ist in beide Richtungen scrollbar und baut sich in

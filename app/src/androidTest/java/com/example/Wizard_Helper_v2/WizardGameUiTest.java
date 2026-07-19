@@ -3,6 +3,7 @@ package com.example.Wizard_Helper_v2;
 import static androidx.test.espresso.Espresso.closeSoftKeyboard;
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.Espresso.openActionBarOverflowOrOptionsMenu;
+import static androidx.test.espresso.Espresso.pressBack;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.action.ViewActions.replaceText;
 import static androidx.test.espresso.action.ViewActions.scrollTo;
@@ -130,7 +131,7 @@ public class WizardGameUiTest {
         setPlayerCount(3);
         launchActivity();
         onView(withId(R.id.startGameBtn)).perform(click());
-        onView(withId(R.id.action_game_history)).perform(click());
+        openGameHistory();
 
         onView(withId(R.id.history_area)).check(matches(isDisplayed()));
         onView(withTagValue(is("history_player_0"))).check(matches(withText("Spieler1")));
@@ -148,7 +149,7 @@ public class WizardGameUiTest {
                 new String[]{"1", "0", "0", "0"},
                 new String[]{"1", "0", "0", "0"}
         );
-        onView(withId(R.id.action_game_history)).perform(click());
+        openGameHistory();
 
         onView(withContentDescription("Ansage von Spieler1")).check(matches(isDisplayed()));
         onView(withContentDescription("Erhaltene Stiche von Spieler1")).check(matches(isDisplayed()));
@@ -157,12 +158,25 @@ public class WizardGameUiTest {
         onView(withTagValue(is("history_0_0_result"))).check(matches(withText("1")));
         onView(withTagValue(is("history_0_0_score"))).check(matches(withText("30")));
         onView(withTagValue(is("history_1_0_prediction"))).check(matches(withText("?")));
+
+        pressBack();
+
+        onView(withId(R.id.game_area)).check(matches(isDisplayed()));
+        onView(withId(R.id.textActRound)).check(matches(withText("Runde: 1 / 15")));
+        onView(withId(R.id.editThinkPlayer1)).check(matches(withText("1")));
+        onView(withId(R.id.editGetWinPlayer1)).check(matches(withText("1")));
+        onView(withId(R.id.actPointsPlayer1)).check(matches(withText("30")));
     }
 
     private void launchAndStartGame() {
         launchActivity();
         onView(withId(R.id.startGameBtn)).perform(click());
         onView(withId(R.id.textActRound)).check(matches(withText("Runde: 1 / 15")));
+    }
+
+    private void openGameHistory() {
+        openActionBarOverflowOrOptionsMenu(context);
+        onView(withText(R.string.game_history)).perform(click());
     }
 
     private void launchActivity() {

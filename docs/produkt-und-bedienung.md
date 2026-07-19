@@ -90,8 +90,8 @@ eigene Siegerauswertung oder Abschlussmeldung ist aktuell nicht implementiert.
 
 ### 5. Spielverlauf ansehen
 
-Während eine Partie läuft, öffnet das Tabellen-Symbol in der Toolbar die
-vollständige Spielverlaufsansicht. Die Tabelle enthält
+Während eine Partie läuft, öffnet der Eintrag **Spielverlauf** im
+Drei-Punkte-Menü die vollständige Spielverlaufsansicht. Die Tabelle enthält
 
 - eine Zeile je vorgesehener Runde,
 - eine Spaltengruppe je aktivem Spieler und

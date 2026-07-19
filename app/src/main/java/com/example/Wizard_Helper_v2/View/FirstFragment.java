@@ -167,6 +167,9 @@ public class FirstFragment extends Fragment {
             }
         });
 
+        if (WizardGame.getInstance().isRunning()) {
+            this.onGameRestored(WizardGame.getInstance().numOfPlayer());
+        }
     }
 
     public void onGameStarted(int playerCount) {
