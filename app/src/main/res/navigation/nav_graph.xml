@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/FirstFragment"
-        android:name="com.example.Wizard_Helper_v2.View.FirstFragment"
+        android:name="de.sbaumert.wizardhelper.View.FirstFragment"
         android:label="@string/first_fragment_label">
 
         <action
@@ -19,7 +19,7 @@
     </fragment>
     <fragment
         android:id="@+id/SecondFragment"
-        android:name="com.example.Wizard_Helper_v2.View.SecondFragment"
+        android:name="de.sbaumert.wizardhelper.View.SecondFragment"
         android:label="@string/game_settings">
 
         <action
@@ -28,6 +28,6 @@
     </fragment>
     <fragment
         android:id="@+id/GameHistoryFragment"
-        android:name="com.example.Wizard_Helper_v2.View.GameHistoryFragment"
+        android:name="de.sbaumert.wizardhelper.View.GameHistoryFragment"
         android:label="@string/game_history" />
 </navigation>

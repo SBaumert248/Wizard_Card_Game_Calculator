@@ -1,4 +1,4 @@
-package com.example.Wizard_Helper_v2.Model;
+package de.sbaumert.wizardhelper.Model;
 
 public final class RoundRules {
 

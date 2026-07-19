@@ -1,9 +1,9 @@
-package com.example.Wizard_Helper_v2;
+package de.sbaumert.wizardhelper;
 
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
-import com.example.Wizard_Helper_v2.Model.Points;
+import de.sbaumert.wizardhelper.Model.Points;
 import com.google.gson.Gson;
 
 class TestModelPoints {

@@ -1,6 +1,6 @@
-package com.example.Wizard_Helper_v2;
+package de.sbaumert.wizardhelper;
 
-import com.example.Wizard_Helper_v2.Model.RoundRules;
+import de.sbaumert.wizardhelper.Model.RoundRules;
 
 import org.junit.jupiter.api.Test;
 

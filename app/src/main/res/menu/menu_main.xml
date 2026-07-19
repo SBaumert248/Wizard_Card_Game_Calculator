@@ -1,7 +1,7 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context="com.example.Wizard_Helper_v2.MainActivity">
+    tools:context="de.sbaumert.wizardhelper.View.MainActivity">
     <item
         android:id="@+id/finish_actual_game"
         android:enabled="false"

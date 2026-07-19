@@ -1,10 +1,10 @@
-package com.example.Wizard_Helper_v2;
+package de.sbaumert.wizardhelper;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import com.example.Wizard_Helper_v2.Controller.WizardGame;
+import de.sbaumert.wizardhelper.Controller.WizardGame;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

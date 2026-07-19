@@ -1,4 +1,4 @@
-package com.example.Wizard_Helper_v2;
+package de.sbaumert.wizardhelper;
 
 import static androidx.test.espresso.Espresso.closeSoftKeyboard;
 import static androidx.test.espresso.Espresso.onView;
@@ -26,8 +26,8 @@ import androidx.test.core.app.ActivityScenario;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.platform.app.InstrumentationRegistry;
 
-import com.example.Wizard_Helper_v2.Controller.WizardGame;
-import com.example.Wizard_Helper_v2.View.MainActivity;
+import de.sbaumert.wizardhelper.Controller.WizardGame;
+import de.sbaumert.wizardhelper.View.MainActivity;
 
 import org.junit.After;
 import org.junit.Before;

@@ -1,7 +1,7 @@
-package com.example.Wizard_Helper_v2.View;
+package de.sbaumert.wizardhelper.View;
 
-import com.example.Wizard_Helper_v2.Controller.WizardGame;
-import com.example.Wizard_Helper_v2.R;
+import de.sbaumert.wizardhelper.Controller.WizardGame;
+import de.sbaumert.wizardhelper.R;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -18,7 +18,7 @@ import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
-import com.example.Wizard_Helper_v2.databinding.ActivityMainBinding;
+import de.sbaumert.wizardhelper.databinding.ActivityMainBinding;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import android.view.Menu;

@@ -1,7 +1,7 @@
-package com.example.Wizard_Helper_v2.View;
+package de.sbaumert.wizardhelper.View;
 
-import com.example.Wizard_Helper_v2.Controller.WizardGame;
-import com.example.Wizard_Helper_v2.R;
+import de.sbaumert.wizardhelper.Controller.WizardGame;
+import de.sbaumert.wizardhelper.R;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -15,7 +15,7 @@ import androidx.fragment.app.Fragment;
 import android.content.Context;
 import android.widget.RadioGroup;
 
-import com.example.Wizard_Helper_v2.databinding.FragmentSecondBinding;
+import de.sbaumert.wizardhelper.databinding.FragmentSecondBinding;
 
 public class SecondFragment extends Fragment {
 

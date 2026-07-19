@@ -6,11 +6,11 @@ plugins {
 }
 
 android {
-    namespace = "com.example.Wizard_Helper_v2"
+    namespace = "de.sbaumert.wizardhelper"
     compileSdk = 35
 
     defaultConfig {
-        applicationId = "com.example.Wizard_Helper_v2"
+        applicationId = "de.sbaumert.wizardhelper"
         minSdk = 26
         targetSdk = 35
         versionCode = 4

@@ -1,4 +1,4 @@
-package com.example.Wizard_Helper_v2.Controller;
+package de.sbaumert.wizardhelper.Controller;
 
 import java.util.HashMap;
 import java.util.ArrayList;
@@ -26,7 +26,7 @@ import com.google.gson.JsonParser;
 import com.google.gson.Strictness;
 import com.google.gson.stream.JsonReader;
 
-import com.example.Wizard_Helper_v2.Model.Points;
+import de.sbaumert.wizardhelper.Model.Points;
 
 public class WizardGame {
 

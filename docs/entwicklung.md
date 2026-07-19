@@ -75,7 +75,7 @@ Abhängigkeitsfläche klein zu halten.
 
 ```text
 app/src/main/
-├── java/com/example/Wizard_Helper_v2/
+├── java/de/sbaumert/wizardhelper/
 │   ├── Controller/WizardGame.java
 │   ├── Model/
 │   │   └── Points.java
@@ -129,8 +129,8 @@ werden.
 
 ## Paket und Release
 
-Namespace und Application-ID lauten aktuell
-`com.example.Wizard_Helper_v2`. Vor einer Veröffentlichung sollte insbesondere
-geprüft werden, ob diese Beispiel-Domain dauerhaft verwendet werden soll.
+Namespace und Application-ID lauten
+`de.sbaumert.wizardhelper`. Der persönliche, kleingeschriebene Paketname
+ersetzt die frühere Beispiel-Domain und identifiziert die App eindeutig.
 Release-Minifizierung ist deaktiviert. Für Version 1.3.1 steht der
 fortlaufende `versionCode` auf 4 und der sichtbare `versionName` auf 1.3.1.

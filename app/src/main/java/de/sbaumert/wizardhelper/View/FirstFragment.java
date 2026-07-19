@@ -1,4 +1,4 @@
-package com.example.Wizard_Helper_v2.View;
+package de.sbaumert.wizardhelper.View;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -19,10 +19,10 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.Wizard_Helper_v2.Controller.WizardGame;
-import com.example.Wizard_Helper_v2.Model.RoundRules;
-import com.example.Wizard_Helper_v2.R;
-import com.example.Wizard_Helper_v2.databinding.FragmentFirstBinding;
+import de.sbaumert.wizardhelper.Controller.WizardGame;
+import de.sbaumert.wizardhelper.Model.RoundRules;
+import de.sbaumert.wizardhelper.R;
+import de.sbaumert.wizardhelper.databinding.FragmentFirstBinding;
 
 public class FirstFragment extends Fragment {
 

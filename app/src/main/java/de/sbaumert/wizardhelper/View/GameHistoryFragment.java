@@ -1,4 +1,4 @@
-package com.example.Wizard_Helper_v2.View;
+package de.sbaumert.wizardhelper.View;
 
 import android.graphics.Typeface;
 import android.os.Bundle;
@@ -13,9 +13,9 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
-import com.example.Wizard_Helper_v2.Controller.WizardGame;
-import com.example.Wizard_Helper_v2.R;
-import com.example.Wizard_Helper_v2.databinding.FragmentGameHistoryBinding;
+import de.sbaumert.wizardhelper.Controller.WizardGame;
+import de.sbaumert.wizardhelper.R;
+import de.sbaumert.wizardhelper.databinding.FragmentGameHistoryBinding;
 
 import java.util.List;
 
