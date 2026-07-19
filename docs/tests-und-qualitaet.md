@@ -40,10 +40,12 @@ Für UI-Tests mit verbundenem Gerät oder Emulator:
 .\gradlew.bat connectedAndroidTest
 ```
 
-Bei der Erstellung dieser Dokumentation konnten die Tests nicht ausgeführt
-werden, weil in der verwendeten Umgebung weder `JAVA_HOME` gesetzt noch
-`java` im `PATH` verfügbar war. Die Aussagen zu den Tests beruhen deshalb auf
-einer statischen Prüfung des Codes.
+Bei der Risikoüberarbeitung wurden der Android-unabhängige Java-Kern und seine
+Tests erfolgreich mit JDK 17 kompiliert. Alle 28 lokalen Unit-Tests liefen mit
+JUnit Jupiter 5.13.4 und Gson 2.14.0 erfolgreich. Der vollständige Gradle-Test-
+und Lint-Lauf konnte nicht gestartet werden, weil auf dem verwendeten Rechner
+kein Android SDK konfiguriert oder auffindbar war. Gradle 8.13 selbst wurde
+erfolgreich gestartet.
 
 ## Empfohlene nächste Tests
 
@@ -62,24 +64,21 @@ Prioritär sinnvoll sind:
 ### Wiederherstellung des Spielstands
 
 `FirstFragment.loadLastGame()` ist im Code mit TODOs versehen. Besonders für
-die erste Runde wird `roundNumber - 1` als vorherige Runde abgefragt. Die
-Methoden des Punktemodells sind nicht durchgängig gegen negative Rundenindizes
-abgesichert. Dieser Pfad sollte vor einem Release reproduzierbar getestet und
-robust gemacht werden.
+die erste Runde wird `roundNumber - 1` als vorherige Runde abgefragt. Das
+Punktemodell weist negative Indizes inzwischen sicher ab; das fachlich korrekte
+Darstellungsverhalten nach Prozesswiederherstellung sollte dennoch mit einem
+instrumentierten UI-Test abgesichert werden.
 
 ### Fehlerbehandlung beim Laden
 
-`WizardGame.loadFromJson()` behandelt nur `IOException`. Syntaxfehler oder
-inkompatible JSON-Strukturen können als Gson-Laufzeitfehler auftreten. Für die
-UI gibt es dabei keine verständliche Fehlermeldung oder einen kontrollierten
-Fallback.
+`WizardGame.loadFromJson()` fängt Ein-/Ausgabe- und Parserfehler ab und
+übernimmt Daten erst nach einer Struktur- und Werteprüfung. Für die UI gibt es
+bei einem abgewiesenen Spielstand jedoch noch keine verständliche Meldung.
 
 ### Zustandsmodell
 
-`WizardGame.startGame()` setzt `isGameRunning` auch bei einer ungültigen
-Spielerzahl auf `true`, während `canStart()` dann `false` meldet. Die UI liefert
-zwar nur gültige Werte, das Modell selbst besitzt aber einen widersprüchlichen
-Zustand.
+Ungültige Spielerzahlen starten keine Partie mehr. Ein Regressionstest deckt
+diesen Zustand ab.
 
 ### Kopplung von UI und Domäne
 
@@ -93,12 +92,9 @@ Validierungslogik für die Stichsumme liegt im Fragment, die übrige Spiellogik
 im Controller und Modell. Eine Verlagerung in eine Android-unabhängige
 Domänenschicht würde die Logik leichter testbar machen.
 
-### Nicht verwendete Ansätze und Dependencies
+### Nicht verwendeter Code
 
-- `AppState.java` wird im aktuellen Ablauf nicht verwendet und ist
-  unvollständig.
-- Room ist konfiguriert, aber nicht implementiert.
-- Mehrere kommentierte Codeblöcke und TODOs erschweren die Wartung.
+Mehrere kommentierte Codeblöcke und TODOs erschweren weiterhin die Wartung.
 
 ### Produktlücken
 
@@ -107,4 +103,3 @@ Domänenschicht würde die Logik leichter testbar machen.
 - Die Oberfläche ist ausschließlich deutsch.
 - Die JSON-Persistenz besitzt keine Formatversion oder Migration.
 - Für die wichtigsten Nutzerabläufe fehlen automatisierte UI-Tests.
-

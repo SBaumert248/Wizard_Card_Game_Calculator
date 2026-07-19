@@ -14,6 +14,8 @@ Sie wurde aus dem Quellcode und der Build-Konfiguration abgeleitet.
   Konventionen
 - [Tests und Qualität](tests-und-qualitaet.md) – vorhandene Tests,
   Testausführung und bekannte technische Risiken
+- [Sicherheits- und Risikobericht](sicherheits-und-risikobericht.md) –
+  behobene und verbleibende Risiken sowie Prüfnachweise
 
 ## Kurzprofil
 
@@ -23,7 +25,7 @@ Sie wurde aus dem Quellcode und der Build-Konfiguration abgeleitet.
 | App-Modul | `app` |
 | Implementierung | überwiegend Java, Gradle-Konfiguration in Kotlin DSL |
 | Unterstützte Android-Version | ab Android 8.0 (API 26) |
-| Ziel-SDK | API 34 |
+| Ziel-SDK | API 35 |
 | Sprache der Oberfläche | Deutsch |
 | Spielerzahl | 3 bis 6 |
 | Architektur | einfache Aufteilung in View, Controller und Model |
@@ -32,4 +34,3 @@ Sie wurde aus dem Quellcode und der Build-Konfiguration abgeleitet.
 Die App ersetzt keinen Regelsatz. Sie unterstützt eine laufende Wizard-Partie,
 indem sie Ansagen und tatsächlich erzielte Stiche erfasst, die Punktstände
 berechnet und die zulässige Stichsumme einer Runde prüft.
-

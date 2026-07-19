@@ -26,16 +26,18 @@ public class Points {
     }
 
     private boolean validRound(int round, Integer[] arr){
-        return arr.length > 0 && arr.length > round;
+        return arr != null && round >= 0 && round < arr.length;
     }
 
     public int getScore(int round){
-        // calculate und add score
-        this.calculate(round);
-        if (!this.isEmpty(this.scores) || this.scores[round] != null) {
-            return this.sumScore(round);
+        if (!this.validRound(round, this.scores)) {
+            return -1;
         }
-        return -1;
+        this.calculate(round);
+        if (this.scores[round] == null) {
+            return -1;
+        }
+        return this.sumScore(round);
     }
     public int countOfScore(){
         int count = 0;
@@ -48,20 +50,14 @@ public class Points {
     }
 
     public void setPrediction(int value, int round){
-        if ((value < 0) || !this.validRound(round, this.predictions)){
-            return;
-        }
-        if (round >= this.predictions.length){
+        if ((value < 0) || value > round + 1 || !this.validRound(round, this.predictions)){
             return;
         }
         this.predictions[round] = value;
     }
 
     public void setResult(int value, int round){
-        if ((value < 0) || !this.validRound(round, this.results)){
-            return;
-        }
-        if (round >= this.results.length){
+        if ((value < 0) || value > round + 1 || !this.validRound(round, this.results)){
             return;
         }
         this.results[round] = value;
@@ -93,19 +89,14 @@ public class Points {
 
     private int sumScore(int round){
         int value = 0;
-        int count = 0;
-        for(Integer score: this.scores){
-            if (score != null && count < round+1) {
-                value += score;
-                count++;
+        for (int index = 0; index <= round; index++) {
+            Integer score = this.scores[index];
+            if (score == null) {
+                return -1;
             }
+            value += score;
         }
-        // Wenn die Anzahl der Ergebnisse mit der Rundenanzahl übereinstimmt
-        if (count == round+1){
-            return value;
-        } else {
-            return -1;
-        }
+        return value;
     }
 
     public int getPrediction(int round){
@@ -144,4 +135,41 @@ public class Points {
         this.scores[round] = value;
     }
 
+    public boolean isValidForRounds(int rounds) {
+        if (rounds <= 0
+                || this.predictions == null
+                || this.results == null
+                || this.scores == null
+                || this.predictions.length != rounds
+                || this.results.length != rounds
+                || this.scores.length != rounds) {
+            return false;
+        }
+
+        for (int round = 0; round < rounds; round++) {
+            Integer prediction = this.predictions[round];
+            Integer result = this.results[round];
+            Integer score = this.scores[round];
+            int maxTricks = round + 1;
+
+            if ((prediction != null && (prediction < 0 || prediction > maxTricks))
+                    || (result != null && (result < 0 || result > maxTricks))) {
+                return false;
+            }
+
+            if (prediction == null || result == null) {
+                if (score != null) {
+                    return false;
+                }
+            } else {
+                int expectedScore = prediction.equals(result)
+                        ? 20 + 10 * prediction
+                        : -10 * Math.abs(prediction - result);
+                if (score != null && score != expectedScore) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
 }

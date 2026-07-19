@@ -88,7 +88,9 @@ beendet, wenn die letzte Runde erreicht ist und für alle Spieler ein berechnete
 Punktestand dieser Runde vorliegt.
 
 Das Singleton wird für das Laden nicht ersetzt. Stattdessen werden die Daten
-des deserialisierten Objekts mit `copyFrom()` in die vorhandene Instanz kopiert.
+des deserialisierten Objekts nach einer Struktur- und Werteprüfung mit
+`copyFrom()` in die vorhandene Instanz kopiert. JSON wird strikt als UTF-8
+gelesen. Ein beschädigter oder manipulierter Spielstand wird abgewiesen.
 
 ### `Points`
 
@@ -117,13 +119,12 @@ angefragten Runde. Fehlende oder ungültige Werte werden durch `-1` gemeldet.
 
 | Daten | Speicher | Zeitpunkt |
 | --- | --- | --- |
-| Laufende Partie | interne Datei `game.json`, Gson | Speichern in `MainActivity.onPause()`, Laden beim Start |
+| Laufende Partie | interne Datei `game.json`, Gson | atomisches Speichern in `MainActivity.onPause()`, validiertes Laden beim Start |
 | Spielerzahl, Master-Modus, letzte Punkte | `SharedPreferences` namens `Setting` | Lesen beim Anzeigen, Schreiben beim Verlassen der Einstellungen |
 | Spielernamen | `SharedPreferences` namens `Playernames` | Lesen beim Erzeugen, Schreiben in `FirstFragment.onPause()` |
 
-Die deklarierte Room-Abhängigkeit wird derzeit nicht verwendet. Auch
-`Model/AppState.java` ist ein unvollständiger, im aktuellen Ablauf nicht
-verwendeter Ansatz für Preferences.
+Cloud-Backup und Gerätetransfer sind für Spielstand und Preferences deaktiviert,
+damit Spielernamen nicht unbeabsichtigt das Gerät verlassen.
 
 ## Ressourcen und Darstellung
 
@@ -134,4 +135,3 @@ verwendeter Ansatz für Preferences.
 - Theme-Varianten existieren für Tag, Nacht und API 23+.
 - Texte sind nur in `values/strings.xml` vorhanden; eine echte
   Mehrsprachigkeit ist noch nicht eingerichtet.
-

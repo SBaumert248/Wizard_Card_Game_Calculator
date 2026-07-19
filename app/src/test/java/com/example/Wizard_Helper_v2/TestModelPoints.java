@@ -30,9 +30,9 @@ class TestModelPoints {
 
     @Test
     void addition_isCorrect_resetScoreForRound() {
-        p.setPrediction(10, 0);
-        p.setResult(1, 0);
-        assertEquals( -90, p.getScore(0), "Score should return -90");
+        p.setPrediction(1, 0);
+        p.setResult(0, 0);
+        assertEquals(-10, p.getScore(0), "Score should return -10");
         p.setPrediction(1, 0);
         p.setResult(1, 0);
         assertEquals(30, p.getScore(0), "Score should return 30");
@@ -67,6 +67,8 @@ class TestModelPoints {
     void add_invalid_prediction(){
         p.setPrediction(-1, 0);
         assertEquals(0, p.countOfPredictions(), "Count of Prediction should be 0");
+        p.setPrediction(2, 0);
+        assertEquals(0, p.countOfPredictions(), "Prediction cannot exceed tricks in round");
     }
 
     @Test
@@ -80,10 +82,20 @@ class TestModelPoints {
     void add_invalid_result(){
         p.setResult(-1, 0);
         assertEquals(0, p.countOfResults(), "Count of Results should be 0");
+        p.setResult(2, 0);
+        assertEquals(0, p.countOfResults(), "Result cannot exceed tricks in round");
     }
 
     @Test
     void get_empty_score(){
         assertEquals(-1, p.getScore(0), "Empty Score should be -1");
+    }
+
+    @Test
+    void invalid_rounds_do_not_crash(){
+        assertEquals(-1, p.getPrediction(-1));
+        assertEquals(-1, p.getResult(-1));
+        assertEquals(-1, p.getScore(-1));
+        assertEquals(-1, p.getScore(2));
     }
 }

@@ -1,16 +1,25 @@
 package com.example.Wizard_Helper_v2.Controller;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.ArrayList;
 import java.util.Map;
-import java.io.FileReader;
-import java.io.FileWriter;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 import java.io.File;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.AtomicMoveNotSupportedException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
+import java.util.HashSet;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.Strictness;
 
 import com.example.Wizard_Helper_v2.Model.Points;
 
@@ -40,45 +49,102 @@ public class WizardGame {
         return instance;
     }
 
-    // Funktion zum Speichern in eine JSON-Datei
-    public void saveToJson(String filePath) {
-        Gson gson = new GsonBuilder().setPrettyPrinting().create();
-        try (FileWriter writer = new FileWriter(filePath)) {
+    public boolean saveToJson(String filePath) {
+        Gson gson = new GsonBuilder()
+                .setPrettyPrinting()
+                .setStrictness(Strictness.STRICT)
+                .create();
+        Path target = Paths.get(filePath);
+        Path temporary = Paths.get(filePath + ".tmp");
+
+        try (FileOutputStream output = new FileOutputStream(temporary.toFile());
+             OutputStreamWriter writer = new OutputStreamWriter(output, StandardCharsets.UTF_8)) {
             gson.toJson(this, writer);
-            System.out.println("Daten erfolgreich gespeichert in " + filePath);
+            writer.flush();
+            output.getFD().sync();
         } catch (IOException e) {
-            e.printStackTrace();
+            temporary.toFile().delete();
+            return false;
+        }
+
+        try {
+            try {
+                Files.move(temporary, target, StandardCopyOption.REPLACE_EXISTING,
+                        StandardCopyOption.ATOMIC_MOVE);
+            } catch (AtomicMoveNotSupportedException e) {
+                Files.move(temporary, target, StandardCopyOption.REPLACE_EXISTING);
+            }
+            return true;
+        } catch (IOException e) {
+            temporary.toFile().delete();
+            return false;
         }
     }
 
-    // Funktion zum Laden aus einer JSON-Datei
-    public void loadFromJson(String filePath) {
+    public boolean loadFromJson(String filePath) {
         File file = new File(filePath);
         if (!file.exists()) {
-            System.err.println("Datei nicht gefunden: " + filePath);
-            return;
+            return false;
         }
 
-        try (FileReader r = new FileReader(filePath)) {
-            Gson gson = new Gson();
-
-            // 1) JSON --> temporäres Objekt
-            WizardGame loadedGame = gson.fromJson(r, WizardGame.class);
-            if (loadedGame == null) {
-                throw new IOException("JSON leer oder nicht kompatibel: " + filePath);
+        try (InputStreamReader reader = new InputStreamReader(
+                new FileInputStream(file), StandardCharsets.UTF_8)) {
+            Gson gson = new GsonBuilder()
+                    .setStrictness(Strictness.STRICT)
+                    .create();
+            WizardGame loadedGame = gson.fromJson(reader, WizardGame.class);
+            if (!isValidLoadedGame(loadedGame)) {
+                return false;
             }
 
-            // 2) Aktuelle Instanz zurücksetzen und befüllen
             this.resetGame();
             this.copyFrom(loadedGame);
-
-            System.out.println("Daten erfolgreich geladen aus " + filePath);
-        } catch (IOException e) {
-            e.printStackTrace();
+            return true;
+        } catch (IOException | RuntimeException e) {
+            return false;
         }
     }
 
-    /** Übernimmt persistente Felder von `other` in **diese** Instanz. */
+    private static boolean isValidLoadedGame(WizardGame game) {
+        if (game == null
+                || game.playerIds == null
+                || game.playerScores == null
+                || game.playernames == null) {
+            return false;
+        }
+
+        if (!game.isGameRunning) {
+            return game.roundNumber == 0
+                    && game.maxRoundNumber == -1
+                    && game.playerIds.isEmpty()
+                    && game.playerScores.isEmpty()
+                    && game.playernames.isEmpty();
+        }
+
+        int expectedPlayers = playerCountForRounds(game.maxRoundNumber);
+        if (expectedPlayers == 0
+                || game.roundNumber < 0
+                || game.roundNumber >= game.maxRoundNumber
+                || game.playerIds.size() != expectedPlayers
+                || new HashSet<>(game.playerIds).size() != expectedPlayers
+                || game.playerScores.size() != expectedPlayers
+                || game.playernames.size() != expectedPlayers) {
+            return false;
+        }
+
+        for (Integer playerId : game.playerIds) {
+            Points points = game.playerScores.get(playerId);
+            String playerName = game.playernames.get(playerId);
+            if (playerId == null
+                    || playerName == null
+                    || points == null
+                    || !points.isValidForRounds(game.maxRoundNumber)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
     private void copyFrom(WizardGame other) {
         this.playernames.putAll(other.playernames);
         this.playerScores.putAll(other.playerScores);
@@ -86,7 +152,6 @@ public class WizardGame {
         this.roundNumber = other.roundNumber;
         this.maxRoundNumber = other.maxRoundNumber;
         this.isGameRunning = other.isGameRunning;
-        /* … weitere Felder … */
     }
 
     public void startGame(int playerCount) {
@@ -97,7 +162,7 @@ public class WizardGame {
             case 6 -> 10;
             default -> -1;
         };
-        this.isGameRunning = true;
+        this.isGameRunning = this.maxRoundNumber > 0;
     }
 
     public void addPlayer(String name, int id) {
@@ -153,7 +218,11 @@ public class WizardGame {
     }
 
     public int numOfPlayer() {
-        return switch (this.maxRoundNumber) {
+        return playerCountForRounds(this.maxRoundNumber);
+    }
+
+    private static int playerCountForRounds(int rounds) {
+        return switch (rounds) {
             case 20 -> 3;
             case 15 -> 4;
             case 12 -> 5;
@@ -259,7 +328,7 @@ public class WizardGame {
      */
     public boolean playerDone(int playerId){
         Points playerScore = this.playerScores.get(playerId);
-        return playerScore.countOfScore() == this.roundNumber+1;
+        return playerScore != null && playerScore.countOfScore() == this.roundNumber+1;
     }
 
     public void nextRound(){

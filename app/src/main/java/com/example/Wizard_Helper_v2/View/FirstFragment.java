@@ -752,7 +752,7 @@ public class FirstFragment extends Fragment {
                 R.id.editGetWinPlayer6
         };
 
-        int sum = 0;
+        long sum = 0;
         for (int id: editGetWinPlayerIds){
             EditText editText = getView().findViewById(id);
             if (!editText.isShown() || !this.isNumeric(editText.getText().toString())){

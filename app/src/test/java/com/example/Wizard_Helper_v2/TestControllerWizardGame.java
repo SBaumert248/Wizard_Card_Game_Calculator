@@ -8,10 +8,18 @@ import com.example.Wizard_Helper_v2.Controller.WizardGame;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.io.TempDir;
+
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 
 class TestControllerWizardGame {
 
     private final WizardGame game = WizardGame.getInstance();
+
+    @TempDir
+    Path tempDir;
 
     @BeforeEach
     void ClearInstance(){
@@ -57,9 +65,11 @@ class TestControllerWizardGame {
     void start_invalid_game(){
         game.startGame(7);
         assertFalse(game.canStart());
+        assertFalse(game.isRunning());
         assertEquals(-1, game.getMaxRoundNumber(), "Number of Rounds should be -1 for invalid number of player (7)");
         game.startGame(2);
         assertFalse(game.canStart());
+        assertFalse(game.isRunning());
         assertEquals(-1, game.getMaxRoundNumber(), "Number of Rounds should be -1 for invalid number of player (2)");
     }
 
@@ -102,16 +112,16 @@ class TestControllerWizardGame {
         game.startGame(4);
 
         game.addPlayer("Bob", 1);
-        game.setPrediction(1, 10, 0);
-        game.setResult(1, 1, 0);
-        assertEquals(-90, game.getScore(1, 0), "Score of 'Bob' should be -90");
+        game.setPrediction(1, 1, 0);
+        game.setResult(1, 0, 0);
+        assertEquals(-10, game.getScore(1, 0), "Score of 'Bob' should be -10");
 
         game.setPrediction(1, 1, 1);
         game.setResult(1,1, 1);
-        assertEquals(-60, game.getScore(1, 1), "Score of 'Bob' should be -60");
+        assertEquals(20, game.getScore(1, 1), "Score of 'Bob' should be 20");
     }
 
-    void save_json(){
+    String save_json(){
         game.startGame(3);
 
         game.addPlayer("Bob", 1);
@@ -130,13 +140,16 @@ class TestControllerWizardGame {
         game.getScore(2, 0);
         game.getScore(3, 0);
 
-        game.saveToJson(".\\testfile.json");
+        Path saveFile = tempDir.resolve("game.json");
+        assertTrue(game.saveToJson(saveFile.toString()));
+        return saveFile.toString();
     }
 
     @Test
     void load_json(){
-        this.save_json();
-        game.loadFromJson(".\\testfile.json");
+        String saveFile = this.save_json();
+        game.resetGame();
+        assertTrue(game.loadFromJson(saveFile));
 
         assertEquals(3, game.numOfPlayer());
         assertTrue(game.isRunning());
@@ -150,6 +163,15 @@ class TestControllerWizardGame {
         assertEquals(20, game.getScore(2, 0));
         assertEquals("Charlie", game.getPlayerName(3));
         assertEquals(-10, game.getScore(3, 0));
+    }
+
+    @Test
+    void reject_corrupt_json() throws IOException {
+        Path saveFile = tempDir.resolve("corrupt.json");
+        Files.writeString(saveFile, "{not valid json");
+
+        assertFalse(game.loadFromJson(saveFile.toString()));
+        assertFalse(game.isRunning());
     }
 
     @Test

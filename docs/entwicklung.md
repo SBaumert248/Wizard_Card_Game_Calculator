@@ -2,12 +2,12 @@
 
 ## Voraussetzungen
 
-- Android Studio mit Android SDK 34
+- Android Studio mit Android SDK 35
 - JDK 17
 - Gradle über den mitgelieferten Wrapper
 
-Die App unterstützt Geräte ab API 26 und zielt auf API 34. Java- und
-Kotlin-Bytecode werden für JVM 17 erzeugt.
+Die App unterstützt Geräte ab API 26 und zielt auf API 35. Java-Bytecode wird
+für JVM 17 erzeugt.
 
 ## Projekt öffnen
 
@@ -43,19 +43,20 @@ Installation zeigen.
 | `settings.gradle.kts` | Projektname, Modul und Repositories |
 | `build.gradle.kts` | Android-Plugin auf Projektebene |
 | `gradle/libs.versions.toml` | zentrale Versions- und Dependency-Aliase |
-| `app/build.gradle.kts` | Android-SDKs, Java/Kotlin-Ziel, Dependencies und Tests |
+| `app/build.gradle.kts` | Android-SDKs, Java-Ziel, Dependencies und Tests |
 | `app/src/main/AndroidManifest.xml` | Launcher-Activity, Theme und Backup-Einstellungen |
 
 Wesentliche Bibliotheken:
 
 - AndroidX AppCompat, ConstraintLayout und Navigation
 - Material Components
-- Gson für Spielstand-JSON
+- Gson für strikt validiertes Spielstand-JSON
 - JUnit Jupiter für lokale Tests
 - AndroidX Test und Espresso für instrumentierte Tests
 
-Room ist als Dependency konfiguriert, wird im Quellcode aktuell aber nicht
-eingesetzt.
+Das Projekt enthält ausschließlich Java-Quellcode. Nicht verwendete Kotlin-,
+KAPT- und Room-Abhängigkeiten wurden entfernt, um Build-Zeit und
+Abhängigkeitsfläche klein zu halten.
 
 ## Quellstruktur
 
@@ -64,8 +65,7 @@ app/src/main/
 ├── java/com/example/Wizard_Helper_v2/
 │   ├── Controller/WizardGame.java
 │   ├── Model/
-│   │   ├── Points.java
-│   │   └── AppState.java
+│   │   └── Points.java
 │   └── View/
 │       ├── MainActivity.java
 │       ├── FirstFragment.java
@@ -108,9 +108,11 @@ Eine neue Einstellung benötigt derzeit
 ### Persistenzformat
 
 Gson serialisiert die internen Felder von `WizardGame` und `Points` direkt.
-Umbenennungen oder Typänderungen können bestehende `game.json`-Dateien
-inkompatibel machen. Für produktive Migrationen sollte ein versioniertes
-Persistenzmodell eingeführt werden.
+Geladene Daten werden auf zulässige Spieler-, Runden- und Punktwerte geprüft
+und beschädigte Dateien werden abgewiesen. Umbenennungen oder Typänderungen
+können bestehende `game.json`-Dateien dennoch inkompatibel machen. Für
+produktive Migrationen sollte ein versioniertes Persistenzmodell eingeführt
+werden.
 
 ## Paket und Release
 
@@ -119,4 +121,3 @@ Namespace und Application-ID lauten aktuell
 geprüft werden, ob diese Beispiel-Domain dauerhaft verwendet werden soll.
 Release-Minifizierung ist deaktiviert und `versionCode` steht auf 1,
 `versionName` auf 1.1.
-

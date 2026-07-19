@@ -1,17 +1,15 @@
 plugins {
     alias(libs.plugins.android.application)
-    alias(libs.plugins.kotlin.android) // Kotlin Plugin
-    alias(libs.plugins.kotlin.kapt)   // Für Annotation Processing
 }
 
 android {
     namespace = "com.example.Wizard_Helper_v2"
-    compileSdk = 34
+    compileSdk = 35
 
     defaultConfig {
         applicationId = "com.example.Wizard_Helper_v2"
         minSdk = 26
-        targetSdk = 34
+        targetSdk = 35
         versionCode = 1
         versionName = "1.1"
 
@@ -28,11 +26,6 @@ android {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
     }
-
-    kotlinOptions {
-        jvmTarget = "17" // Maximale unterstützte Kotlin JVM-Zielversion
-    }
-
 
     buildFeatures {
         viewBinding = true
@@ -54,12 +47,7 @@ dependencies {
     testImplementation(libs.junit.jupiter.api)
     testRuntimeOnly(libs.junit.jupiter.engine)
 
-    // Room Abhängigkeiten
-    implementation(libs.room.runtime.v261)
-    kapt(libs.room.compiler.v261)
-    implementation(libs.room.ktx.v261)
-
-    implementation("com.google.code.gson:gson:2.10.1") // Aktuelle Version
+    implementation("com.google.code.gson:gson:2.14.0")
 }
 
 tasks.withType<Test> {
