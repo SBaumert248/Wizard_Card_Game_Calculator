@@ -78,9 +78,20 @@ Für einen HTML- und XML-Coverage-Bericht der lokalen Debug-Tests:
 .\gradlew.bat jacocoTestReport
 ```
 
-Der Bericht misst bewusst auch nicht ausgeführten Android-UI-Code. Dadurch
-bleibt sichtbar, welche View-Pfade künftig instrumentierte Tests benötigen,
-statt die Quote durch pauschales Ausschließen der UI künstlich zu erhöhen.
+Für einen kombinierten Bericht aus lokalen Unit-Tests und instrumentierten
+UI-Tests muss ein Android-Gerät oder Emulator verbunden sein:
+
+```powershell
+.\gradlew.bat jacocoCombinedTestReport
+```
+
+Der kombinierte HTML-Bericht liegt anschließend unter
+`app/build/reports/jacoco/jacocoCombinedTestReport/html/index.html`, der
+maschinenlesbare XML-Bericht im übergeordneten Verzeichnis.
+
+Beide Berichte messen bewusst auch nicht ausgeführten Android-UI-Code. Es
+werden keine Produktivklassen zur künstlichen Erhöhung der Quote
+ausgeschlossen.
 
 Aktueller Stand nach 41 Unit-Tests:
 
@@ -91,12 +102,24 @@ Aktueller Stand nach 41 Unit-Tests:
 | View | 0,0 % |
 | Gesamt | 31,6 % |
 
-Die niedrige Gesamtquote entsteht vor allem durch die 552 nicht abgedeckten
-Zeilen im Android-View-Paket. Für diesen Bereich sind instrumentierte Tests
-oder eine weitere Verlagerung der Logik in Android-unabhängige Klassen nötig.
-Eine Mindestquote wird noch nicht erzwungen, da ein globales Limit entweder
-so niedrig wäre, dass es kaum schützt, oder den Build blockieren würde, bevor
-eine UI-Testbasis vorhanden ist.
+Kombinierter Stand nach 41 Unit-Tests und vier UI-Tests:
+
+| Bereich | Zeilenabdeckung |
+| --- | ---: |
+| Model | 100,0 % |
+| Controller | 94,9 % |
+| View | 88,6 % |
+| Gesamt | 91,3 % |
+| Branches gesamt | 72,1 % |
+
+Der reine Unit-Test-Bericht bleibt bewusst verfügbar, weil er schnell und ohne
+Android-Gerät ausgeführt werden kann. Der kombinierte Bericht ergänzt die
+tatsächlich auf dem Gerät durchlaufenen Activity-, Fragment- und
+Persistenzpfade.
+
+Eine Mindestquote wird noch nicht erzwungen. Dafür sollte zunächst festgelegt
+werden, ob in der lokalen Entwicklung der schnelle Unit-Wert oder in einer
+Geräte-CI der kombinierte Wert verbindlich sein soll.
 
 Nach Installation des Android SDK wurde der vollständige Gradle-Lauf
 `test lintDebug assembleDebug jacocoTestReport` erfolgreich ausgeführt. Alle 41 lokalen

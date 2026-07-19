@@ -20,6 +20,10 @@ android {
     }
 
     buildTypes {
+        debug {
+            enableUnitTestCoverage = true
+            enableAndroidTestCoverage = true
+        }
         release {
             isMinifyEnabled = false
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
@@ -93,6 +97,40 @@ tasks.register<JacocoReport>("jacocoTestReport") {
     reports {
         html.required.set(true)
         xml.required.set(true)
+        csv.required.set(false)
+    }
+}
+
+tasks.register<JacocoReport>("jacocoCombinedTestReport") {
+    group = "verification"
+    description = "Generates a combined HTML and XML coverage report for debug unit and UI tests."
+
+    dependsOn("testDebugUnitTest", "connectedDebugAndroidTest")
+
+    executionData.setFrom(
+        fileTree(layout.buildDirectory) {
+            include(
+                "jacoco/testDebugUnitTest.exec",
+                "outputs/code_coverage/debugAndroidTest/connected/**/*.ec"
+            )
+        }
+    )
+    sourceDirectories.setFrom(files("src/main/java"))
+    classDirectories.setFrom(
+        fileTree(
+            layout.buildDirectory.dir(
+                "intermediates/javac/debug/compileDebugJavaWithJavac/classes"
+            )
+        ) {
+            exclude(coverageExclusions)
+        }
+    )
+
+    reports {
+        html.required.set(true)
+        html.outputLocation.set(layout.buildDirectory.dir("reports/jacoco/jacocoCombinedTestReport/html"))
+        xml.required.set(true)
+        xml.outputLocation.set(layout.buildDirectory.file("reports/jacoco/jacocoCombinedTestReport/jacocoCombinedTestReport.xml"))
         csv.required.set(false)
     }
 }
