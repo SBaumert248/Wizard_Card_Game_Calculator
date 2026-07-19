@@ -21,6 +21,7 @@ Unter Windows:
 ```powershell
 .\gradlew.bat assembleDebug
 .\gradlew.bat test
+.\gradlew.bat jacocoTestReport
 .\gradlew.bat connectedAndroidTest
 ```
 
@@ -29,12 +30,24 @@ Unter Linux oder macOS:
 ```bash
 ./gradlew assembleDebug
 ./gradlew test
+./gradlew jacocoTestReport
 ./gradlew connectedAndroidTest
 ```
 
 `connectedAndroidTest` benötigt einen laufenden Emulator oder ein verbundenes
 Gerät. Falls Gradle Java nicht findet, muss `JAVA_HOME` auf eine JDK-17-
 Installation zeigen.
+
+Der JaCoCo-Task führt die lokalen Debug-Unit-Tests aus und erzeugt:
+
+- einen HTML-Bericht unter
+  `app/build/reports/jacoco/jacocoTestReport/html/index.html`
+- einen maschinenlesbaren XML-Bericht unter
+  `app/build/reports/jacoco/jacocoTestReport/jacocoTestReport.xml`
+
+Generierte Android-Klassen (`R`, `BuildConfig` und View Binding) werden nicht
+in die Abdeckungsberechnung einbezogen. Android-UI-Code bleibt im Bericht
+sichtbar, auch wenn er von lokalen Unit-Tests nicht ausgeführt werden kann.
 
 ## Wichtige Konfiguration
 

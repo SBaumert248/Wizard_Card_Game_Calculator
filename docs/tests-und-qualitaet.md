@@ -56,8 +56,34 @@ Für UI-Tests mit verbundenem Gerät oder Emulator:
 .\gradlew.bat connectedAndroidTest
 ```
 
+Für einen HTML- und XML-Coverage-Bericht der lokalen Debug-Tests:
+
+```powershell
+.\gradlew.bat jacocoTestReport
+```
+
+Der Bericht misst bewusst auch nicht ausgeführten Android-UI-Code. Dadurch
+bleibt sichtbar, welche View-Pfade künftig instrumentierte Tests benötigen,
+statt die Quote durch pauschales Ausschließen der UI künstlich zu erhöhen.
+
+Aktueller Stand nach 31 Unit-Tests:
+
+| Bereich | Zeilenabdeckung |
+| --- | ---: |
+| Model | 91,4 % |
+| Controller | 78,3 % |
+| View | 0,0 % |
+| Gesamt | 26,2 % |
+
+Die niedrige Gesamtquote entsteht vor allem durch die 552 nicht abgedeckten
+Zeilen im Android-View-Paket. Für diesen Bereich sind instrumentierte Tests
+oder eine weitere Verlagerung der Logik in Android-unabhängige Klassen nötig.
+Eine Mindestquote wird noch nicht erzwungen, da ein globales Limit entweder
+so niedrig wäre, dass es kaum schützt, oder den Build blockieren würde, bevor
+eine UI-Testbasis vorhanden ist.
+
 Nach Installation des Android SDK wurde der vollständige Gradle-Lauf
-`test lintDebug assembleDebug` erfolgreich ausgeführt. Alle 28 lokalen
+`test lintDebug assembleDebug` erfolgreich ausgeführt. Alle 31 lokalen
 Unit-Tests bestanden sowohl für Debug als auch für Release. Android Lint
 meldete keine Fehler; der Debug-Build erzeugte erfolgreich eine APK.
 
