@@ -16,6 +16,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.HashSet;
+import java.util.List;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -252,6 +253,20 @@ public class WizardGame {
             }
         }
         return -1;
+    }
+
+    public int getPrediction(int playerId, int round) {
+        Points points = this.playerScores.get(playerId);
+        return points == null ? -1 : points.getPrediction(round);
+    }
+
+    public int getResult(int playerId, int round) {
+        Points points = this.playerScores.get(playerId);
+        return points == null ? -1 : points.getResult(round);
+    }
+
+    public List<Integer> getPlayerIds() {
+        return List.copyOf(this.playerIds);
     }
 
     public String getPlayerName(int id){

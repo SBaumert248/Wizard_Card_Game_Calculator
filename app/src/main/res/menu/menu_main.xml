@@ -12,4 +12,11 @@
         android:orderInCategory="100"
         android:title="@string/action_settings"
         app:showAsAction="never" />
+    <item
+        android:id="@+id/action_game_history"
+        android:enabled="false"
+        android:icon="@drawable/table_24"
+        android:orderInCategory="10"
+        android:title="@string/game_history"
+        app:showAsAction="ifRoom" />
 </menu>

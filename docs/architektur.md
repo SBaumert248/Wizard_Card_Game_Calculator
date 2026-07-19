@@ -13,8 +13,10 @@ Android UI
 │   └── Speichern/Laden des Spielstands
 ├── FirstFragment
 │   └── Spielernamen, Rundeneingaben und Anzeige
-└── SecondFragment
-    └── Einstellungen
+├── SecondFragment
+│   └── Einstellungen
+└── GameHistoryFragment
+    └── Dynamische Tabelle des Spielverlaufs
           │
           ▼
 WizardGame (Singleton-Controller)
@@ -29,7 +31,7 @@ Points (Modell je Spieler)
 └── Punkteberechnung
 ```
 
-Android View Binding ist aktiviert. Die Navigation zwischen den beiden
+Android View Binding ist aktiviert. Die Navigation zwischen den drei
 Fragmenten erfolgt über AndroidX Navigation und `nav_graph.xml`.
 
 ## Komponenten
@@ -71,6 +73,16 @@ Das koppelt die Domänenlogik an die UI-Ressourcen und sollte bei einer spätere
 Das Einstellungsfragment verwaltet Spielerzahl, Master-Modus und die Anzeige
 der letzten Punkte. Es liest die Einstellungen beim Erzeugen der View und
 schreibt sie in `onPause()` in die Preferences-Datei `Setting`.
+
+### `GameHistoryFragment`
+
+Die Verlaufsansicht wird ausschließlich während einer laufenden Partie über
+die Toolbar geöffnet. Sie erzeugt ihre `TableLayout`-Zeilen und -Spalten
+dynamisch aus der geordneten Spieler-ID-Liste und der maximalen Rundenzahl in
+`WizardGame`. Pro Spieler werden Ansage, Ergebnis und kumulierter Punktestand
+angezeigt. Die Ansicht ist in beide Richtungen scrollbar und baut sich in
+`onResume()` erneut auf, damit auch wiederhergestellte oder zwischenzeitlich
+aktualisierte Spielstände korrekt erscheinen.
 
 ### `WizardGame`
 
@@ -132,6 +144,8 @@ damit Spielernamen nicht unbeabsichtigt das Gerät verlassen.
 - `activity_main.xml` stellt Toolbar, NavHost und Start-FAB bereit.
 - `fragment_first.xml` enthält die Spieltabelle.
 - `fragment_second.xml` enthält die Einstellungen.
+- `fragment_game_history.xml` stellt den scrollbaren Container der dynamischen
+  Verlaufstabelle bereit.
 - Varianten von `dimens.xml` unterstützen Querformat und größere Displays.
 - Theme-Varianten existieren für Tag, Nacht und API 23+.
 - Texte sind nur in `values/strings.xml` vorhanden; eine echte

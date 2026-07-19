@@ -144,6 +144,12 @@ public class MainActivity extends AppCompatActivity {
             return true;
         }
 
+        if (id == R.id.action_game_history) {
+            NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
+            navController.navigate(R.id.action_FirstFragment_to_GameHistoryFragment);
+            return true;
+        }
+
         //noinspection SimplifiableIfStatement
         if (id == R.id.finish_actual_game) {
             // Navigiere zum SecondFragment
@@ -189,18 +195,30 @@ public class MainActivity extends AppCompatActivity {
 
         // Überprüfen Sie die Sichtbarkeit von settings_area
         View settingsArea = findViewById(R.id.settings_area);
+        View historyArea = findViewById(R.id.history_area);
+        boolean isHistoryVisible = historyArea != null
+                && historyArea.getVisibility() == View.VISIBLE;
 
         // Wenn settings_area sichtbar ist, verstecken Sie das Menüelement action_settings
         // Andernfalls machen Sie das Menüelement action_settings sichtbar
         if (settingsItem != null) {
-            settingsItem.setVisible(settingsArea == null || settingsArea.getVisibility() != View.VISIBLE);
+            settingsItem.setVisible(!isHistoryVisible
+                    && (settingsArea == null || settingsArea.getVisibility() != View.VISIBLE));
             settingsItem.setEnabled(!WizardGame.getInstance().isRunning());
         }
 
         MenuItem resetGameItem = menu.findItem(R.id.finish_actual_game);
 
         if (resetGameItem != null) {
+            resetGameItem.setVisible(!isHistoryVisible);
             resetGameItem.setEnabled(WizardGame.getInstance().isRunning());
+        }
+
+        MenuItem historyItem = menu.findItem(R.id.action_game_history);
+        if (historyItem != null) {
+            historyItem.setVisible(WizardGame.getInstance().isRunning()
+                    && !isHistoryVisible);
+            historyItem.setEnabled(WizardGame.getInstance().isRunning());
         }
 
         // Erzeuge das Menü

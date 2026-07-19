@@ -99,6 +99,29 @@ class TestControllerWizardGame {
     }
 
     @Test
+    void history_accessors_return_all_round_values_and_ordered_players() {
+        game.startGame(3);
+        game.addPlayer("Bob", 11);
+        game.addPlayer("Alice", 22);
+        game.addPlayer("Charlie", 33);
+
+        game.setPrediction(11, 1, 0);
+        game.setResult(11, 1, 0);
+        game.setPrediction(11, 2, 1);
+        game.setResult(11, 1, 1);
+
+        assertEquals(1, game.getPrediction(11, 0));
+        assertEquals(1, game.getResult(11, 0));
+        assertEquals(2, game.getPrediction(11, 1));
+        assertEquals(1, game.getResult(11, 1));
+        assertEquals(30, game.getScore(11, 0));
+        assertEquals(20, game.getScore(11, 1));
+        assertEquals(-1, game.getPrediction(22, 0));
+        assertEquals(-1, game.getResult(999, 0));
+        assertEquals(java.util.List.of(11, 22, 33), game.getPlayerIds());
+    }
+
+    @Test
     void get_score_for_invalid_player(){
         game.startGame(4);
 

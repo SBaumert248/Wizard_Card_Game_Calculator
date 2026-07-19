@@ -7,11 +7,15 @@ import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.action.ViewActions.replaceText;
 import static androidx.test.espresso.action.ViewActions.scrollTo;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
+import static androidx.test.espresso.assertion.ViewAssertions.doesNotExist;
 import static androidx.test.espresso.matcher.ViewMatchers.isChecked;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.isNotChecked;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
+import static androidx.test.espresso.matcher.ViewMatchers.withContentDescription;
+import static androidx.test.espresso.matcher.ViewMatchers.withTagValue;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
+import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.not;
 
 import android.content.Context;
@@ -121,6 +125,40 @@ public class WizardGameUiTest {
         onView(withId(R.id.startGameBtn)).check(matches(not(isDisplayed())));
     }
 
+    @Test
+    public void historyUsesPlayerCountAndMatchingRoundCount() {
+        setPlayerCount(3);
+        launchActivity();
+        onView(withId(R.id.startGameBtn)).perform(click());
+        onView(withId(R.id.action_game_history)).perform(click());
+
+        onView(withId(R.id.history_area)).check(matches(isDisplayed()));
+        onView(withTagValue(is("history_player_0"))).check(matches(withText("Spieler1")));
+        onView(withTagValue(is("history_player_2"))).check(matches(withText("Spieler3")));
+        onView(withTagValue(is("history_player_3"))).check(doesNotExist());
+        onView(withTagValue(is("history_round_19"))).check(matches(withText("20")));
+        onView(withTagValue(is("history_round_20"))).check(doesNotExist());
+    }
+
+    @Test
+    public void historyShowsIconsAndCurrentRoundValues() {
+        disableMasterMode();
+        launchAndStartGame();
+        enterRound(
+                new String[]{"1", "0", "0", "0"},
+                new String[]{"1", "0", "0", "0"}
+        );
+        onView(withId(R.id.action_game_history)).perform(click());
+
+        onView(withContentDescription("Ansage von Spieler1")).check(matches(isDisplayed()));
+        onView(withContentDescription("Erhaltene Stiche von Spieler1")).check(matches(isDisplayed()));
+        onView(withContentDescription("Punktestand von Spieler1")).check(matches(isDisplayed()));
+        onView(withTagValue(is("history_0_0_prediction"))).check(matches(withText("1")));
+        onView(withTagValue(is("history_0_0_result"))).check(matches(withText("1")));
+        onView(withTagValue(is("history_0_0_score"))).check(matches(withText("30")));
+        onView(withTagValue(is("history_1_0_prediction"))).check(matches(withText("?")));
+    }
+
     private void launchAndStartGame() {
         launchActivity();
         onView(withId(R.id.startGameBtn)).perform(click());
@@ -135,6 +173,13 @@ public class WizardGameUiTest {
         context.getSharedPreferences("Setting", Context.MODE_PRIVATE)
                 .edit()
                 .putBoolean("master_mode", false)
+                .commit();
+    }
+
+    private void setPlayerCount(int playerCount) {
+        context.getSharedPreferences("Setting", Context.MODE_PRIVATE)
+                .edit()
+                .putInt("player_count", playerCount)
                 .commit();
     }
 

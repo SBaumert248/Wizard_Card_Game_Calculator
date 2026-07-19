@@ -54,7 +54,11 @@ Lücken zwischen Runden und die Stichsummenregel des Master-Modus ab.
 - vollständiges Entfernen alter Punkte beim Beenden und Neustarten einer
   Partie sowie
 - Wiederherstellung von Runde, Spielername und letztem Punktestand nach einem
-  Activity-Neustart.
+  Activity-Neustart,
+- 20 Verlaufszeilen und drei Spielergruppen bei einer Partie mit drei
+  Spielern sowie
+- korrekte Verlaufssymbole, aktuelle Eingaben, kumulierte Punkte und leere
+  Zukunftswerte.
 
 Jeder Test löscht zuvor gezielt Einstellungen, Spielernamen, `game.json` und
 den Singleton-Zustand. Dadurch sind die Tests voneinander und von zuvor
@@ -93,24 +97,24 @@ Beide Berichte messen bewusst auch nicht ausgeführten Android-UI-Code. Es
 werden keine Produktivklassen zur künstlichen Erhöhung der Quote
 ausgeschlossen.
 
-Aktueller Stand nach 41 Unit-Tests:
+Aktueller Stand nach 42 Unit-Tests:
 
 | Bereich | Zeilenabdeckung |
 | --- | ---: |
 | Model | 97,9 % |
-| Controller | 94,3 % |
+| Controller | 94,4 % |
 | View | 0,0 % |
-| Gesamt | 31,6 % |
+| Gesamt | 28,8 % |
 
-Kombinierter Stand nach 41 Unit-Tests und vier UI-Tests:
+Kombinierter Stand nach 42 Unit-Tests und sechs UI-Tests:
 
 | Bereich | Zeilenabdeckung |
 | --- | ---: |
 | Model | 100,0 % |
-| Controller | 94,9 % |
-| View | 88,6 % |
-| Gesamt | 91,3 % |
-| Branches gesamt | 72,1 % |
+| Controller | 95,0 % |
+| View | 90,5 % |
+| Gesamt | 92,4 % |
+| Branches gesamt | 73,5 % |
 
 Der reine Unit-Test-Bericht bleibt bewusst verfügbar, weil er schnell und ohne
 Android-Gerät ausgeführt werden kann. Der kombinierte Bericht ergänzt die
@@ -122,11 +126,11 @@ werden, ob in der lokalen Entwicklung der schnelle Unit-Wert oder in einer
 Geräte-CI der kombinierte Wert verbindlich sein soll.
 
 Nach Installation des Android SDK wurde der vollständige Gradle-Lauf
-`test lintDebug assembleDebug jacocoTestReport` erfolgreich ausgeführt. Alle 41 lokalen
+`test lintDebug assembleDebug jacocoCombinedTestReport` erfolgreich ausgeführt. Alle 42 lokalen
 Unit-Tests bestanden sowohl für Debug als auch für Release. Android Lint
 meldete keine Fehler; der Debug-Build erzeugte erfolgreich eine APK.
 
-Zusätzlich bestanden alle vier instrumentierten UI-Tests auf einem Pixel 9 Pro
+Zusätzlich bestanden alle sechs instrumentierten UI-Tests auf einem Pixel 9 Pro
 mit Android 17.
 
 Lint meldet weiterhin nicht blockierende Hinweise, vor allem zu ungenutzten

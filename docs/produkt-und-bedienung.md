@@ -88,7 +88,23 @@ werden die Punktestände der vorherigen Runde zusätzlich eingeblendet.
 In der letzten Runde wird kein weiterer Runden-Button mehr angezeigt. Eine
 eigene Siegerauswertung oder Abschlussmeldung ist aktuell nicht implementiert.
 
-### 5. Partie abbrechen
+### 5. Spielverlauf ansehen
+
+Während eine Partie läuft, öffnet das Tabellen-Symbol in der Toolbar die
+vollständige Spielverlaufsansicht. Die Tabelle enthält
+
+- eine Zeile je vorgesehener Runde,
+- eine Spaltengruppe je aktivem Spieler und
+- innerhalb jeder Spielergruppe Ansage, erhaltene Stiche und kumulierten
+  Punktestand.
+
+Die Unterspalten verwenden dieselben Symbole wie die Hauptspielseite:
+Gedankenblase, Hand mit Geldstücken und Pokal. Noch nicht gespielte Werte
+werden als `?` angezeigt. Die Tabelle kann horizontal und vertikal gescrollt
+werden. Über den Zurück-Pfeil gelangt man ohne Änderung des Spielstands zur
+aktuellen Runde zurück.
+
+### 6. Partie abbrechen
 
 Über **Beende aktuelles Spiel** wird der Spielzustand zurückgesetzt und der
 Start-Button wieder eingeblendet. Die zuletzt verwendeten Spielernamen und

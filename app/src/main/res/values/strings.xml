@@ -1,6 +1,11 @@
 <resources>
     <string name="app_name">Wizard Helper</string>
     <string name="action_settings">Einstellung</string>
+    <string name="game_history">Spielverlauf</string>
+    <string name="history_round">Runde</string>
+    <string name="history_prediction_description">Ansage von %1$s</string>
+    <string name="history_result_description">Erhaltene Stiche von %1$s</string>
+    <string name="history_score_description">Punktestand von %1$s</string>
     <string name="cancel_actual_game">Beende aktuelles Spiel</string>
     <!-- Strings used for fragments for navigation -->
     <string name="first_fragment_label"> </string>

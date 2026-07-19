@@ -81,7 +81,9 @@ tasks.register<JacocoReport>("jacocoTestReport") {
     dependsOn("testDebugUnitTest")
 
     executionData.setFrom(
-        layout.buildDirectory.file("jacoco/testDebugUnitTest.exec")
+        layout.buildDirectory.file(
+            "outputs/unit_test_code_coverage/debugUnitTest/testDebugUnitTest.exec"
+        )
     )
     sourceDirectories.setFrom(files("src/main/java"))
     classDirectories.setFrom(
@@ -110,7 +112,7 @@ tasks.register<JacocoReport>("jacocoCombinedTestReport") {
     executionData.setFrom(
         fileTree(layout.buildDirectory) {
             include(
-                "jacoco/testDebugUnitTest.exec",
+                "outputs/unit_test_code_coverage/debugUnitTest/testDebugUnitTest.exec",
                 "outputs/code_coverage/debugAndroidTest/connected/**/*.ec"
             )
         }

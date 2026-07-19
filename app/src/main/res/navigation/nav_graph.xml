@@ -13,6 +13,9 @@
         <action
             android:id="@+id/action_FirstFragment_to_SecondFragment"
             app:destination="@id/SecondFragment" />
+        <action
+            android:id="@+id/action_FirstFragment_to_GameHistoryFragment"
+            app:destination="@id/GameHistoryFragment" />
     </fragment>
     <fragment
         android:id="@+id/SecondFragment"
@@ -23,4 +26,8 @@
             android:id="@+id/action_SecondFragment_to_FirstFragment"
             app:destination="@id/FirstFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/GameHistoryFragment"
+        android:name="com.example.Wizard_Helper_v2.View.GameHistoryFragment"
+        android:label="@string/game_history" />
 </navigation>
