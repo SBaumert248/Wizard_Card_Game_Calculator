@@ -19,7 +19,11 @@ import java.util.HashSet;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import com.google.gson.Strictness;
+import com.google.gson.stream.JsonReader;
 
 import com.example.Wizard_Helper_v2.Model.Points;
 
@@ -92,7 +96,14 @@ public class WizardGame {
             Gson gson = new GsonBuilder()
                     .setStrictness(Strictness.STRICT)
                     .create();
-            WizardGame loadedGame = gson.fromJson(reader, WizardGame.class);
+            JsonReader jsonReader = new JsonReader(reader);
+            jsonReader.setStrictness(Strictness.STRICT);
+            JsonElement json = JsonParser.parseReader(jsonReader);
+            if (!hasRequiredFields(json)) {
+                return false;
+            }
+
+            WizardGame loadedGame = gson.fromJson(json, WizardGame.class);
             if (!isValidLoadedGame(loadedGame)) {
                 return false;
             }
@@ -210,6 +221,20 @@ public class WizardGame {
         if (score != null) {
             score.clearPrediction(round);
         }
+    }
+
+    private static boolean hasRequiredFields(JsonElement json) {
+        if (json == null || !json.isJsonObject()) {
+            return false;
+        }
+
+        JsonObject object = json.getAsJsonObject();
+        return object.has("playerIds")
+                && object.has("playerScores")
+                && object.has("playernames")
+                && object.has("roundNumber")
+                && object.has("maxRoundNumber")
+                && object.has("isGameRunning");
     }
 
     public void clearResult(int playerId, int round) {

@@ -193,6 +193,63 @@ class TestControllerWizardGame {
     }
 
     @Test
+    void inactive_game_can_be_persisted_and_restored() {
+        Path saveFile = tempDir.resolve("inactive.json");
+
+        assertTrue(game.saveToJson(saveFile.toString()));
+        game.startGame(3);
+        assertTrue(game.isRunning());
+
+        assertTrue(game.loadFromJson(saveFile.toString()));
+        assertFalse(game.isRunning());
+        assertEquals(0, game.numOfPlayer());
+    }
+
+    @Test
+    void missing_or_invalid_save_targets_are_handled() {
+        assertFalse(game.loadFromJson(tempDir.resolve("missing.json").toString()));
+        assertFalse(game.saveToJson(tempDir.toString()));
+    }
+
+    @Test
+    void invalid_player_operations_are_safe() {
+        game.startGame(3);
+        game.addPlayer("Bob", 1);
+
+        assertFalse(game.setPrediction(-1, 0, 0));
+        assertFalse(game.setPrediction(999, 0, 0));
+        assertFalse(game.setResult(-1, 0, 0));
+        assertFalse(game.setResult(999, 0, 0));
+        assertEquals(-1, game.getActPrediction(999));
+        assertEquals(-1, game.getActResult(999));
+        assertEquals(-1, game.getActScore(999));
+        assertFalse(game.playerDone(999));
+
+        assertTrue(game.setPrediction(1, 1, 0));
+        assertEquals(1, game.getActPrediction(1));
+        game.clearPrediction(1, 0);
+        assertEquals(-1, game.getActPrediction(1));
+    }
+
+    @Test
+    void structurally_invalid_game_json_is_rejected() throws IOException {
+        String[] invalidGames = {
+                "null",
+                "{}",
+                "{\"playerIds\":[],\"playerScores\":{},\"playernames\":{},"
+                        + "\"roundNumber\":0,\"maxRoundNumber\":20,\"isGameRunning\":true}",
+                "{\"playerIds\":[1,1,1],\"playerScores\":{},\"playernames\":{},"
+                        + "\"roundNumber\":0,\"maxRoundNumber\":20,\"isGameRunning\":true}"
+        };
+
+        for (int index = 0; index < invalidGames.length; index++) {
+            Path saveFile = tempDir.resolve("invalid-" + index + ".json");
+            Files.write(saveFile, invalidGames[index].getBytes(StandardCharsets.UTF_8));
+            assertFalse(game.loadFromJson(saveFile.toString()), "Invalid JSON index " + index);
+        }
+    }
+
+    @Test
     void test_all_player_done(){
         game.startGame(3);
 

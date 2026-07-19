@@ -27,6 +27,10 @@ Zusätzliche Regressionstests prüfen, dass geänderte oder geleerte Eingaben
 bereits berechnete Punktestände invalidieren und ein Spieler danach nicht mehr
 fälschlich als fertig gilt.
 
+Weitere Randfalltests decken unvollständige und manipulierte JSON-Spielstände,
+fehlende Dateien, nicht beschreibbare Ziele, ungültige Spieleroperationen,
+Lücken zwischen Runden und die Stichsummenregel des Master-Modus ab.
+
 ## Abgesicherte Spielzyklus-Fehler
 
 - Beim Beenden einer Partie werden aktuelle und vorherige Punktanzeigen
@@ -66,14 +70,14 @@ Der Bericht misst bewusst auch nicht ausgeführten Android-UI-Code. Dadurch
 bleibt sichtbar, welche View-Pfade künftig instrumentierte Tests benötigen,
 statt die Quote durch pauschales Ausschließen der UI künstlich zu erhöhen.
 
-Aktueller Stand nach 31 Unit-Tests:
+Aktueller Stand nach 41 Unit-Tests:
 
 | Bereich | Zeilenabdeckung |
 | --- | ---: |
-| Model | 91,4 % |
-| Controller | 78,3 % |
+| Model | 97,9 % |
+| Controller | 94,3 % |
 | View | 0,0 % |
-| Gesamt | 26,2 % |
+| Gesamt | 31,6 % |
 
 Die niedrige Gesamtquote entsteht vor allem durch die 552 nicht abgedeckten
 Zeilen im Android-View-Paket. Für diesen Bereich sind instrumentierte Tests
@@ -83,7 +87,7 @@ so niedrig wäre, dass es kaum schützt, oder den Build blockieren würde, bevor
 eine UI-Testbasis vorhanden ist.
 
 Nach Installation des Android SDK wurde der vollständige Gradle-Lauf
-`test lintDebug assembleDebug` erfolgreich ausgeführt. Alle 31 lokalen
+`test lintDebug assembleDebug jacocoTestReport` erfolgreich ausgeführt. Alle 41 lokalen
 Unit-Tests bestanden sowohl für Debug als auch für Release. Android Lint
 meldete keine Fehler; der Debug-Build erzeugte erfolgreich eine APK.
 

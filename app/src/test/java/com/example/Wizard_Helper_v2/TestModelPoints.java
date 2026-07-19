@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 import com.example.Wizard_Helper_v2.Model.Points;
+import com.google.gson.Gson;
 
 class TestModelPoints {
 
@@ -124,5 +125,56 @@ class TestModelPoints {
         assertFalse(p.setResult(-1, 0));
         assertFalse(p.setResult(2, 0));
         assertFalse(p.setResult(0, 2));
+    }
+
+    @Test
+    void score_requires_all_previous_rounds() {
+        Points points = new Points(2);
+        points.setPrediction(1, 1);
+        points.setResult(1, 1);
+
+        assertEquals(-1, points.getScore(1));
+    }
+
+    @Test
+    void empty_points_object_rejects_all_rounds() {
+        Points points = new Points(0);
+
+        assertEquals(-1, points.getPrediction(0));
+        assertEquals(-1, points.getResult(0));
+        assertEquals(-1, points.getScore(0));
+        assertFalse(points.isValidForRounds(0));
+    }
+
+    @Test
+    void persisted_points_structure_is_validated() {
+        Gson gson = new Gson();
+
+        Points validIncomplete = gson.fromJson(
+                "{\"predictions\":[1,null],\"results\":[1,null],\"scores\":[30,null]}",
+                Points.class
+        );
+        Points wrongArraySize = gson.fromJson(
+                "{\"predictions\":[1],\"results\":[1,0],\"scores\":[30,20]}",
+                Points.class
+        );
+        Points impossibleValue = gson.fromJson(
+                "{\"predictions\":[2],\"results\":[1],\"scores\":[-10]}",
+                Points.class
+        );
+        Points scoreWithoutInputs = gson.fromJson(
+                "{\"predictions\":[null],\"results\":[null],\"scores\":[20]}",
+                Points.class
+        );
+        Points manipulatedScore = gson.fromJson(
+                "{\"predictions\":[1],\"results\":[1],\"scores\":[999]}",
+                Points.class
+        );
+
+        assertTrue(validIncomplete.isValidForRounds(2));
+        assertFalse(wrongArraySize.isValidForRounds(2));
+        assertFalse(impossibleValue.isValidForRounds(1));
+        assertFalse(scoreWithoutInputs.isValidForRounds(1));
+        assertFalse(manipulatedScore.isValidForRounds(1));
     }
 }

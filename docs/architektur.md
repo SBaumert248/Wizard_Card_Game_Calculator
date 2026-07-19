@@ -90,7 +90,8 @@ Punktestand dieser Runde vorliegt.
 Das Singleton wird für das Laden nicht ersetzt. Stattdessen werden die Daten
 des deserialisierten Objekts nach einer Struktur- und Werteprüfung mit
 `copyFrom()` in die vorhandene Instanz kopiert. JSON wird strikt als UTF-8
-gelesen. Ein beschädigter oder manipulierter Spielstand wird abgewiesen.
+gelesen. Alle persistierten Pflichtfelder müssen vorhanden sein; ein
+beschädigter, unvollständiger oder manipulierter Spielstand wird abgewiesen.
 
 ### `Points`
 

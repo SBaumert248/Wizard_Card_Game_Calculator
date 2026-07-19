@@ -20,6 +20,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.Wizard_Helper_v2.Controller.WizardGame;
+import com.example.Wizard_Helper_v2.Model.RoundRules;
 import com.example.Wizard_Helper_v2.R;
 import com.example.Wizard_Helper_v2.databinding.FragmentFirstBinding;
 
@@ -813,7 +814,7 @@ public class FirstFragment extends Fragment {
         boolean masterMode = sharedPreferences.getBoolean("master_mode", true);
         int actRound = WizardGame.getInstance().getRoundNumber();
 
-        return sum == (actRound+1) || (masterMode && (actRound+1-sum) == 1);
+        return RoundRules.isValidResultTotal(sum, actRound, masterMode);
     }
 
     public boolean isNumeric(String value) {
