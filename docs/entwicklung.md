@@ -132,5 +132,5 @@ werden.
 Namespace und Application-ID lauten aktuell
 `com.example.Wizard_Helper_v2`. Vor einer Veröffentlichung sollte insbesondere
 geprüft werden, ob diese Beispiel-Domain dauerhaft verwendet werden soll.
-Release-Minifizierung ist deaktiviert und `versionCode` steht auf 1,
-`versionName` auf 1.1.
+Release-Minifizierung ist deaktiviert. Für Version 1.3.1 steht der
+fortlaufende `versionCode` auf 4 und der sichtbare `versionName` auf 1.3.1.

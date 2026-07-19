@@ -13,8 +13,8 @@ android {
         applicationId = "com.example.Wizard_Helper_v2"
         minSdk = 26
         targetSdk = 35
-        versionCode = 1
-        versionName = "1.1"
+        versionCode = 4
+        versionName = "1.3.1"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
