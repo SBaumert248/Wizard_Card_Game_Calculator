@@ -147,9 +147,10 @@ public class WizardGameUiTest {
         disableMasterMode();
         launchAndStartGame();
         enterRound(
-                new String[]{"1", "0", "0", "0"},
+                new String[]{"1", "1", "1", "1"},
                 new String[]{"1", "0", "0", "0"}
         );
+        onView(withId(R.id.nextRoundBtn)).perform(scrollTo(), click());
         openGameHistory();
 
         onView(withContentDescription("Ansage von Spieler1")).check(matches(isDisplayed()));
@@ -158,18 +159,23 @@ public class WizardGameUiTest {
         onView(withTagValue(is("history_0_0_prediction"))).check(matches(withText("1")));
         onView(withTagValue(is("history_0_0_result"))).check(matches(withText("1")));
         onView(withTagValue(is("history_0_0_score"))).check(matches(withText("30")));
+        for (int playerIndex = 1; playerIndex < 4; playerIndex++) {
+            String tagPrefix = "history_0_" + playerIndex;
+            onView(withTagValue(is(tagPrefix + "_prediction"))).check(matches(withText("1")));
+            onView(withTagValue(is(tagPrefix + "_result"))).check(matches(withText("0")));
+            onView(withTagValue(is(tagPrefix + "_score"))).check(matches(withText("-10")));
+        }
         onView(withTagValue(is("history_1_0_prediction"))).check(matches(withText("?")));
-        onView(withTagValue(is("history_round_0"))).check(matches(isSelected()));
-        onView(withTagValue(is("history_0_0_score"))).check(matches(isSelected()));
-        onView(withTagValue(is("history_round_1"))).check(matches(not(isSelected())));
+        onView(withTagValue(is("history_round_1"))).check(matches(isSelected()));
+        onView(withTagValue(is("history_1_0_score"))).check(matches(isSelected()));
+        onView(withTagValue(is("history_round_0"))).check(matches(not(isSelected())));
 
         pressBack();
 
         onView(withId(R.id.game_area)).check(matches(isDisplayed()));
-        onView(withId(R.id.textActRound)).check(matches(withText("Runde: 1 / 15")));
-        onView(withId(R.id.editThinkPlayer1)).check(matches(withText("1")));
-        onView(withId(R.id.editGetWinPlayer1)).check(matches(withText("1")));
-        onView(withId(R.id.actPointsPlayer1)).check(matches(withText("30")));
+        onView(withId(R.id.textActRound)).check(matches(withText("Runde: 2 / 15")));
+        onView(withId(R.id.editThinkPlayer1)).check(matches(withText("?")));
+        onView(withId(R.id.editGetWinPlayer1)).check(matches(withText("?")));
         openActionBarOverflowOrOptionsMenu(context);
         onView(withText(R.string.cancel_actual_game)).check(matches(isDisplayed()));
     }
@@ -219,6 +225,8 @@ public class WizardGameUiTest {
 
         for (int index = 0; index < predictionIds.length; index++) {
             replace(predictionIds[index], predictions[index]);
+        }
+        for (int index = 0; index < resultIds.length; index++) {
             replace(resultIds[index], results[index]);
         }
     }

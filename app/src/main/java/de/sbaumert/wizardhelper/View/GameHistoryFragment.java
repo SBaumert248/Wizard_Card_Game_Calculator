@@ -187,7 +187,7 @@ public class GameHistoryFragment extends Fragment {
     }
 
     private String formatValue(int value) {
-        return value < 0 ? "?" : Integer.toString(value);
+        return value == -1 ? "?" : Integer.toString(value);
     }
 
     private int dp(int value) {
