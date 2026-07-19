@@ -45,8 +45,20 @@ Lücken zwischen Runden und die Stichsummenregel des Master-Modus ab.
 
 ### Instrumentierte Tests
 
-Es existiert ein `ExampleInstrumentedTest`. Eine systematische UI-Abdeckung mit
-Espresso ist aktuell nicht vorhanden.
+`WizardGameUiTest` führt die ersten kritischen Nutzerabläufe mit Espresso und
+`ActivityScenario` auf einem echten Android-Gerät oder Emulator aus:
+
+- vier Spieler und aktiver Master-Modus als Standardkonfiguration,
+- Sperren des Rundenwechsels, sobald eine erforderliche Eingabe wieder
+  geleert wird,
+- vollständiges Entfernen alter Punkte beim Beenden und Neustarten einer
+  Partie sowie
+- Wiederherstellung von Runde, Spielername und letztem Punktestand nach einem
+  Activity-Neustart.
+
+Jeder Test löscht zuvor gezielt Einstellungen, Spielernamen, `game.json` und
+den Singleton-Zustand. Dadurch sind die Tests voneinander und von zuvor
+manuell gespielten Partien unabhängig.
 
 ## Ausführung
 
@@ -57,7 +69,7 @@ Espresso ist aktuell nicht vorhanden.
 Für UI-Tests mit verbundenem Gerät oder Emulator:
 
 ```powershell
-.\gradlew.bat connectedAndroidTest
+.\gradlew.bat connectedDebugAndroidTest
 ```
 
 Für einen HTML- und XML-Coverage-Bericht der lokalen Debug-Tests:
@@ -91,6 +103,9 @@ Nach Installation des Android SDK wurde der vollständige Gradle-Lauf
 Unit-Tests bestanden sowohl für Debug als auch für Release. Android Lint
 meldete keine Fehler; der Debug-Build erzeugte erfolgreich eine APK.
 
+Zusätzlich bestanden alle vier instrumentierten UI-Tests auf einem Pixel 9 Pro
+mit Android 17.
+
 Lint meldet weiterhin nicht blockierende Hinweise, vor allem zu ungenutzten
 Ressourcen sowie zur Barrierefreiheit bestehender Eingabefelder und Bilder.
 Diese sollten schrittweise abgearbeitet werden, ändern aber den erfolgreichen
@@ -100,13 +115,12 @@ Prüfstatus nicht.
 
 Prioritär sinnvoll sind:
 
-1. Wiederherstellung in Runde 1 und in späteren Runden
-2. Wechsel zwischen App-Hintergrund und Vordergrund während einer Partie
-3. Master-Modus: exakt ein fehlender Stich gegenüber anderen Abweichungen
-4. Abschluss der letzten Runde und sichtbares Nutzerfeedback
-5. ungültige, sehr große und während der Eingabe geänderte Zahlen
-6. Konfigurationswechsel wie Drehen des Geräts
-7. beschädigte oder inkompatible `game.json`
+1. Wechsel zwischen App-Hintergrund und Vordergrund während einer Partie
+2. Master-Modus: exakt ein fehlender Stich gegenüber anderen Abweichungen
+3. Abschluss der letzten Runde und sichtbares Nutzerfeedback
+4. ungültige, sehr große und während der Eingabe geänderte Zahlen
+5. Konfigurationswechsel wie Drehen des Geräts
+6. beschädigte oder inkompatible `game.json`
 
 ## Bekannte Risiken und technische Schulden
 
@@ -151,4 +165,5 @@ Mehrere kommentierte Codeblöcke und TODOs erschweren weiterhin die Wartung.
 - Es gibt keine Historienansicht aller Runden.
 - Die Oberfläche ist ausschließlich deutsch.
 - Die JSON-Persistenz besitzt keine Formatversion oder Migration.
-- Für die wichtigsten Nutzerabläufe fehlen automatisierte UI-Tests.
+- Die UI-Testbasis deckt erst vier zentrale Abläufe ab und benötigt weitere
+  Fehler-, Lebenszyklus- und Abschlussfälle.

@@ -45,6 +45,7 @@ dependencies {
     // Android-Test-Abhängigkeiten
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
+    androidTestImplementation(libs.test.core)
 
     // JUnit 5 (lokale Tests)
     testImplementation(libs.junit.jupiter.api)
