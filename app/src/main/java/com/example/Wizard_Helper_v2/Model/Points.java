@@ -1,7 +1,5 @@
 package com.example.Wizard_Helper_v2.Model;
 
-import java.util.ArrayList;
-
 public class Points {
     private final Integer[] predictions;
     private final Integer[] results;
@@ -49,18 +47,36 @@ public class Points {
         return count;
     }
 
-    public void setPrediction(int value, int round){
-        if ((value < 0) || value > round + 1 || !this.validRound(round, this.predictions)){
-            return;
+    public boolean setPrediction(int value, int round){
+        if (!this.validRound(round, this.predictions) || value < 0 || value > round + 1){
+            return false;
         }
         this.predictions[round] = value;
+        this.scores[round] = null;
+        return true;
     }
 
-    public void setResult(int value, int round){
-        if ((value < 0) || value > round + 1 || !this.validRound(round, this.results)){
-            return;
+    public boolean setResult(int value, int round){
+        if (!this.validRound(round, this.results) || value < 0 || value > round + 1){
+            return false;
         }
         this.results[round] = value;
+        this.scores[round] = null;
+        return true;
+    }
+
+    public void clearPrediction(int round) {
+        if (this.validRound(round, this.predictions)) {
+            this.predictions[round] = null;
+            this.scores[round] = null;
+        }
+    }
+
+    public void clearResult(int round) {
+        if (this.validRound(round, this.results)) {
+            this.results[round] = null;
+            this.scores[round] = null;
+        }
     }
 
     public int countNotNullValues(Integer[] arr){
@@ -79,12 +95,6 @@ public class Points {
 
     public int countOfResults(){
         return this.countNotNullValues(this.results);
-    }
-
-    private void removeLast(ArrayList<Integer> list){
-        if (!list.isEmpty()){
-            list.remove(list.size() - 1);
-        }
     }
 
     private int sumScore(int round){

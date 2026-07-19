@@ -57,7 +57,7 @@ public class SecondFragment extends Fragment {
         // Daten abrufen
         SharedPreferences sharedPreferences = requireActivity().getSharedPreferences("Setting", Context.MODE_PRIVATE);
         int playerCount = sharedPreferences.getInt("player_count", 4);
-        boolean masterMode = sharedPreferences.getBoolean("master_mode", false);
+        boolean masterMode = sharedPreferences.getBoolean("master_mode", true);
         boolean showLastPoints = sharedPreferences.getBoolean("show_last_points", true);
 
         // UI-Komponenten finden und Einstellungen setzen

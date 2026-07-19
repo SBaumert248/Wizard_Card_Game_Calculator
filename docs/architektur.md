@@ -119,7 +119,7 @@ angefragten Runde. Fehlende oder ungültige Werte werden durch `-1` gemeldet.
 
 | Daten | Speicher | Zeitpunkt |
 | --- | --- | --- |
-| Laufende Partie | interne Datei `game.json`, Gson | atomisches Speichern in `MainActivity.onPause()`, validiertes Laden beim Start |
+| Laufende Partie | interne Datei `game.json`, Gson | atomisches Speichern in `MainActivity.onPause()` und unmittelbar beim Spielabbruch, validiertes Laden beim Start |
 | Spielerzahl, Master-Modus, letzte Punkte | `SharedPreferences` namens `Setting` | Lesen beim Anzeigen, Schreiben beim Verlassen der Einstellungen |
 | Spielernamen | `SharedPreferences` namens `Playernames` | Lesen beim Erzeugen, Schreiben in `FirstFragment.onPause()` |
 

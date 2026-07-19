@@ -23,6 +23,22 @@
 - Vollständigkeit einer Runde sowie
 - JSON-Speichern und -Laden.
 
+Zusätzliche Regressionstests prüfen, dass geänderte oder geleerte Eingaben
+bereits berechnete Punktestände invalidieren und ein Spieler danach nicht mehr
+fälschlich als fertig gilt.
+
+## Abgesicherte Spielzyklus-Fehler
+
+- Beim Beenden einer Partie werden aktuelle und vorherige Punktanzeigen
+  vollständig zurückgesetzt.
+- Der zurückgesetzte Zustand wird sofort gespeichert, sodass ein Prozessende
+  nicht zur Wiederherstellung der abgebrochenen Partie führt.
+- Der Master-Modus ist beim ersten Start standardmäßig aktiv.
+- Ungültige oder geleerte Eingaben entfernen den vorherigen Modellwert und
+  sperren den Rundenwechsel.
+- Eingabebeobachter werden nicht bei jedem Rundenwechsel erneut registriert.
+- Beim Wiederherstellen bleiben gespeicherte Namen und Rundendaten erhalten.
+
 ### Instrumentierte Tests
 
 Es existiert ein `ExampleInstrumentedTest`. Eine systematische UI-Abdeckung mit

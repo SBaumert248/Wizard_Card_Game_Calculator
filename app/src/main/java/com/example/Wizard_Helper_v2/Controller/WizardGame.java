@@ -185,21 +185,37 @@ public class WizardGame {
         this.isGameRunning = false;
     }
 
-    public void setPrediction(int playerId, int value, int round){
+    public boolean setPrediction(int playerId, int value, int round){
         if (playerId == -1)
-            return;
+            return false;
         Points score = this.playerScores.get(playerId);
         if (score != null) {
-            score.setPrediction(value, round);
+            return score.setPrediction(value, round);
+        }
+        return false;
+    }
+
+    public boolean setResult(int playerId,int value, int round) {
+        if (playerId == -1)
+            return false;
+        Points score = this.playerScores.get(playerId);
+        if (score != null) {
+            return score.setResult(value, round);
+        }
+        return false;
+    }
+
+    public void clearPrediction(int playerId, int round) {
+        Points score = this.playerScores.get(playerId);
+        if (score != null) {
+            score.clearPrediction(round);
         }
     }
 
-    public void setResult(int playerId,int value, int round) {
-        if (playerId == -1)
-            return;
+    public void clearResult(int playerId, int round) {
         Points score = this.playerScores.get(playerId);
         if (score != null) {
-            score.setResult(value, round);
+            score.clearResult(round);
         }
     }
 

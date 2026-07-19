@@ -176,6 +176,23 @@ class TestControllerWizardGame {
     }
 
     @Test
+    void clear_round_input_removes_completed_score() {
+        game.startGame(3);
+        game.addPlayer("Bob", 1);
+
+        assertTrue(game.setPrediction(1, 1, 0));
+        assertTrue(game.setResult(1, 1, 0));
+        assertEquals(30, game.getScore(1, 0));
+        assertTrue(game.playerDone(1));
+
+        game.clearResult(1, 0);
+
+        assertEquals(-1, game.getActResult(1));
+        assertEquals(-1, game.getActScore(1));
+        assertFalse(game.playerDone(1));
+    }
+
+    @Test
     void test_all_player_done(){
         game.startGame(3);
 

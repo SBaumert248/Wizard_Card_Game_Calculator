@@ -98,4 +98,31 @@ class TestModelPoints {
         assertEquals(-1, p.getScore(-1));
         assertEquals(-1, p.getScore(2));
     }
+
+    @Test
+    void changing_or_clearing_input_invalidates_score() {
+        assertTrue(p.setPrediction(1, 0));
+        assertTrue(p.setResult(1, 0));
+        assertEquals(30, p.getScore(0));
+
+        assertTrue(p.setPrediction(0, 0));
+        assertEquals(-10, p.getScore(0));
+
+        p.clearResult(0);
+        assertEquals(-1, p.getResult(0));
+        assertEquals(-1, p.getScore(0));
+
+        p.clearPrediction(0);
+        assertEquals(-1, p.getPrediction(0));
+    }
+
+    @Test
+    void setters_report_rejected_values() {
+        assertFalse(p.setPrediction(-1, 0));
+        assertFalse(p.setPrediction(2, 0));
+        assertFalse(p.setPrediction(0, -1));
+        assertFalse(p.setResult(-1, 0));
+        assertFalse(p.setResult(2, 0));
+        assertFalse(p.setResult(0, 2));
+    }
 }

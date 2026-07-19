@@ -101,7 +101,7 @@ Die Einstellungsseite enthält:
 | Einstellung | Bedeutung | Standard im Code |
 | --- | --- | --- |
 | Spielerzahl | Legt sichtbare Spieler und Rundenzahl fest | 4 |
-| Master Modus | Erlaubt, dass die Ergebnis-Summe genau einen Stich unter der Rundenzahl liegt | aus |
+| Master Modus | Erlaubt, dass die Ergebnis-Summe genau einen Stich unter der Rundenzahl liegt | an |
 | Punkte der letzten Runde anzeigen | Blendet den vorherigen Punktestand ein | an |
 
 Im normalen Modus muss die Summe der Ergebnisse der aktuellen Rundenzahl

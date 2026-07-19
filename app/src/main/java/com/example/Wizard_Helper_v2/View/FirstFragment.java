@@ -23,14 +23,9 @@ import com.example.Wizard_Helper_v2.Controller.WizardGame;
 import com.example.Wizard_Helper_v2.R;
 import com.example.Wizard_Helper_v2.databinding.FragmentFirstBinding;
 
-import java.util.HashMap;
-import java.util.Map;
-
 public class FirstFragment extends Fragment {
 
     private FragmentFirstBinding binding;
-    private int actRound = 1;
-    private Map<Integer, String> originalValues = new HashMap<>();
     private boolean wrongNumberDialogShown = false;
     private boolean loadingPlayerDatas = false;
 
@@ -70,17 +65,7 @@ public class FirstFragment extends Fragment {
         return Integer.toString(value);
     }
 
-    private String getPlayernameDef(int index, String sDefault){
-        if (index < 0 || index >= WizardGame.getInstance().numOfPlayer()){
-            return sDefault;
-        }
-        return "fehlt";
-//        return WizardGame.getInstance().getPlayers().get(index).getName();
-    }
-
     public void loadLastGame(){
-        // TODO: Wenn ein Spiel geladenen wird, werden die Punkte der letzten Runden in die aktuelle Runde geschrieben
-        // TODO: Es soll nur die Punkte geschrieben werden wenn, die für die aktuelle Runde ist
         this.loadingPlayerDatas = true;
 
         if (WizardGame.getInstance().isRunning()) {
@@ -88,36 +73,42 @@ public class FirstFragment extends Fragment {
             int lastRound = WizardGame.getInstance().getRoundNumber()-1;
 
             int id = R.id.namePlayer1;
+            binding.namePlayer1.setText(WizardGame.getInstance().getPlayerName(id));
             binding.editThinkPlayer1.setText(this.intToStr(WizardGame.getInstance().getActPrediction(id), "?"));
             binding.editGetWinPlayer1.setText(this.intToStr(WizardGame.getInstance().getActResult(id), "?"));
             binding.actPointsPlayer1.setText(this.intToStr(WizardGame.getInstance().getActScore(id), "?"));
             binding.textLastPointsPlayer1.setText(this.intToStr(WizardGame.getInstance().getScore(id, lastRound), "?"));
 
             id = R.id.namePlayer2;
+            binding.namePlayer2.setText(WizardGame.getInstance().getPlayerName(id));
             binding.editThinkPlayer2.setText(this.intToStr(WizardGame.getInstance().getActPrediction(id), "?"));
             binding.editGetWinPlayer2.setText(this.intToStr(WizardGame.getInstance().getActResult(id), "?"));
             binding.actPointsPlayer2.setText(this.intToStr(WizardGame.getInstance().getActScore(id), "?"));
             binding.textLastPointsPlayer2.setText(this.intToStr(WizardGame.getInstance().getScore(id, lastRound), "?"));
 
             id = R.id.namePlayer3;
+            binding.namePlayer3.setText(WizardGame.getInstance().getPlayerName(id));
             binding.editThinkPlayer3.setText(this.intToStr(WizardGame.getInstance().getActPrediction(id), "?"));
             binding.editGetWinPlayer3.setText(this.intToStr(WizardGame.getInstance().getActResult(id), "?"));
             binding.actPointsPlayer3.setText(this.intToStr(WizardGame.getInstance().getActScore(id), "?"));
             binding.textLastPointsPlayer3.setText(this.intToStr(WizardGame.getInstance().getScore(id, lastRound), "?"));
 
             id = R.id.namePlayer4;
+            binding.namePlayer4.setText(WizardGame.getInstance().getPlayerName(id));
             binding.editThinkPlayer4.setText(this.intToStr(WizardGame.getInstance().getActPrediction(id), "?"));
             binding.editGetWinPlayer4.setText(this.intToStr(WizardGame.getInstance().getActResult(id), "?"));
             binding.actPointsPlayer4.setText(this.intToStr(WizardGame.getInstance().getActScore(id), "?"));
             binding.textLastPointsPlayer4.setText(this.intToStr(WizardGame.getInstance().getScore(id, lastRound), "?"));
 
             id = R.id.namePlayer5;
+            binding.namePlayer5.setText(WizardGame.getInstance().getPlayerName(id));
             binding.editThinkPlayer5.setText(this.intToStr(WizardGame.getInstance().getActPrediction(id), "?"));
             binding.editGetWinPlayer5.setText(this.intToStr(WizardGame.getInstance().getActResult(id), "?"));
             binding.actPointsPlayer5.setText(this.intToStr(WizardGame.getInstance().getActScore(id), "?"));
             binding.textLastPointsPlayer5.setText(this.intToStr(WizardGame.getInstance().getScore(id, lastRound), "?"));
 
             id = R.id.namePlayer6;
+            binding.namePlayer6.setText(WizardGame.getInstance().getPlayerName(id));
             binding.editThinkPlayer6.setText(this.intToStr(WizardGame.getInstance().getActPrediction(id), "?"));
             binding.editGetWinPlayer6.setText(this.intToStr(WizardGame.getInstance().getActResult(id), "?"));
             binding.actPointsPlayer6.setText(this.intToStr(WizardGame.getInstance().getActScore(id), "?"));
@@ -163,12 +154,9 @@ public class FirstFragment extends Fragment {
 
         binding.nextRoundBtn.setOnClickListener(v -> {
             WizardGame.getInstance().nextRound();
-            this.originalValues.clear();
             this.updatePlayerCountMessage(false);
             this.setPlayerFields(WizardGame.getInstance().numOfPlayer(), true);
-            this.setupTextChangeListeners();
             binding.nextRoundBtn.setVisibility(View.GONE);
-            this.actRound = WizardGame.getInstance().getRoundNumber();
             SharedPreferences sharedPreferences = requireActivity().getSharedPreferences("Setting", Context.MODE_PRIVATE);
             boolean showLastPoints = sharedPreferences.getBoolean("show_last_points", true);
             if (showLastPoints){
@@ -180,13 +168,10 @@ public class FirstFragment extends Fragment {
 
     }
 
-    public void showStartBtn(){
-        binding.nextRoundBtn.setVisibility(View.VISIBLE);
-    }
-
     public void onGameStarted(int playerCount) {
         System.out.println("Spiel wurde im FirstFragment gestartet!");
 
+        this.resetGameDisplay();
         this.setPlayerFields(playerCount, true);
 
         // Spielernamen auslesen
@@ -195,6 +180,14 @@ public class FirstFragment extends Fragment {
 
         this.updatePlayerCountMessage(false);
 
+    }
+
+    public void onGameRestored(int playerCount) {
+        this.loadingPlayerDatas = true;
+        this.setPlayerFields(playerCount, true);
+        this.updatePlayerCountMessage(false);
+        this.loadingPlayerDatas = false;
+        this.loadLastGame();
     }
 
     public void updatePlayerCountMessage(boolean doReset) {
@@ -383,6 +376,32 @@ public class FirstFragment extends Fragment {
         this.hideLastRoundPoint(R.id.textLastPointsPlayer6);
     }
 
+    public void resetGameDisplay() {
+        View rootView = getView();
+        if (rootView == null) {
+            return;
+        }
+
+        this.resetActScoreText();
+
+        int[] lastPointIds = {
+                R.id.textLastPointsPlayer1,
+                R.id.textLastPointsPlayer2,
+                R.id.textLastPointsPlayer3,
+                R.id.textLastPointsPlayer4,
+                R.id.textLastPointsPlayer5,
+                R.id.textLastPointsPlayer6
+        };
+        for (int id : lastPointIds) {
+            TextView lastPoints = rootView.findViewById(id);
+            lastPoints.setText("?");
+            lastPoints.setVisibility(View.INVISIBLE);
+        }
+
+        binding.nextRoundBtn.setVisibility(View.GONE);
+        this.wrongNumberDialogShown = false;
+    }
+
     private void hideLastRoundPoint(int id){
         TextView lastShowScore = getView().findViewById(id);
         lastShowScore.setVisibility(View.INVISIBLE);
@@ -553,7 +572,6 @@ public class FirstFragment extends Fragment {
         for (int id : editFieldIds) {
             EditText editText = rootView.findViewById(id);
             if (editText != null) {
-                originalValues.put(id, editText.getText().toString());
                 // TextWatcher hinzufügen
                 editText.addTextChangedListener(new TextWatcher() {
                     @Override
@@ -568,22 +586,35 @@ public class FirstFragment extends Fragment {
 
                     @Override
                     public void afterTextChanged(Editable s) {
-                        System.out.println("Bearbeitung beendet: " + id);
-                        String currentValue = s.toString();
-                        int playerId = getPlayerId(id);
-
-                        Integer value = tryParseInt(currentValue);
-                        if (currentValue.isEmpty() || currentValue.contains("?") || (value == null)){
+                        if (loadingPlayerDatas) {
                             return;
                         }
 
+                        System.out.println("Bearbeitung beendet: " + id);
+                        String currentValue = s.toString();
+                        int playerId = getPlayerId(id);
                         int actRound = WizardGame.getInstance().getRoundNumber();
 
+                        Integer value = tryParseInt(currentValue);
+                        if (currentValue.isEmpty() || currentValue.contains("?") || (value == null)){
+                            clearGameValue(id, playerId, actRound);
+                            setScoreText(id, "?");
+                            binding.nextRoundBtn.setVisibility(View.GONE);
+                            return;
+                        }
+
+                        boolean accepted = false;
                         if (isPredictionEdit(id)) {
-                            WizardGame.getInstance().setPrediction(playerId, value, actRound);
+                            accepted = WizardGame.getInstance().setPrediction(playerId, value, actRound);
                         }
                         if (isResultEdit(id)) {
-                            WizardGame.getInstance().setResult(playerId, value, actRound);
+                            accepted = WizardGame.getInstance().setResult(playerId, value, actRound);
+                        }
+                        if (!accepted) {
+                            clearGameValue(id, playerId, actRound);
+                            setScoreText(id, "?");
+                            binding.nextRoundBtn.setVisibility(View.GONE);
+                            return;
                         }
                         setScore(id);
 
@@ -593,6 +624,23 @@ public class FirstFragment extends Fragment {
                     }
                 });
             }
+        }
+    }
+
+    private void clearGameValue(int editId, int playerId, int round) {
+        if (isPredictionEdit(editId)) {
+            WizardGame.getInstance().clearPrediction(playerId, round);
+        } else if (isResultEdit(editId)) {
+            WizardGame.getInstance().clearResult(playerId, round);
+        }
+    }
+
+    private void setScoreText(int editId, String value) {
+        int textId = this.getScoreTextViewId(editId);
+        View rootView = getView();
+        if (textId != -1 && rootView != null) {
+            TextView textView = rootView.findViewById(textId);
+            textView.setText(value);
         }
     }
 
@@ -648,7 +696,6 @@ public class FirstFragment extends Fragment {
     }
 
     private void setScore(int editId){
-        //TODO: Bitch dein Rap ist kitsch nur ramtsch und schrott mach hier weiter du reimendes wort
         if (this.isResultEdit(editId) || this.isPredictionEdit(editId)){
             int textId = this.getScoreTextViewId(editId);
             if (textId != -1) {
@@ -763,7 +810,7 @@ public class FirstFragment extends Fragment {
         }
 
         SharedPreferences sharedPreferences = requireActivity().getSharedPreferences("Setting", Context.MODE_PRIVATE);
-        boolean masterMode = sharedPreferences.getBoolean("master_mode", false);
+        boolean masterMode = sharedPreferences.getBoolean("master_mode", true);
         int actRound = WizardGame.getInstance().getRoundNumber();
 
         return sum == (actRound+1) || (masterMode && (actRound+1-sum) == 1);
