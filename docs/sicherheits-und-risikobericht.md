@@ -22,12 +22,14 @@ Android-Berechtigungen an.
 | Mittel | Veraltete direkte Dependencies und Build-Werkzeuge | Stabile Updates für AGP, Gradle, AndroidX, Material, Gson und Testbibliotheken |
 | Mittel | Gradle-Distribution war nicht kryptografisch im Projekt fixiert | Offizielle SHA-256-Prüfsumme für Gradle 8.13 im Wrapper hinterlegt |
 | Niedrig | Nicht verwendete Room-, Kotlin- und KAPT-Komponenten vergrößerten Build- und Abhängigkeitsfläche | Plugins, Dependencies, Versionsaliase und ungenutzte `AppState`-Klasse entfernt |
+| Niedrig | JUnit Engine und der von Gradle geladene Platform Launcher waren nicht versionsgleich | JUnit Platform Launcher 1.13.4 explizit als Test-Runtime eingebunden |
+| Niedrig | Nicht-positionale Ressourcenplatzhalter und fest kodierte Rechtsausrichtung verursachten Lint-Befunde | Platzhalter positioniert und Layoutattribute RTL-kompatibel gemacht |
 
 ## Aktualisierte Versionen
 
 | Komponente | Vorher | Nachher |
 | --- | ---: | ---: |
-| Android Gradle Plugin | 8.7.3 | 8.11.1 |
+| Android Gradle Plugin | 8.7.3 | 8.11.2 |
 | Gradle Wrapper | 8.11.1 | 8.13 |
 | compileSdk / targetSdk | 34 | 35 |
 | AppCompat | 1.7.0 | 1.7.1 |
@@ -47,15 +49,16 @@ ist eine eigene Migration und wurde nicht mit den Sicherheitsfixes vermischt.
 - Gradle Wrapper 8.13 erfolgreich heruntergeladen und gestartet
 - `Points.java`, `WizardGame.java` und die lokalen Tests erfolgreich mit
   JDK 17 kompiliert
-- 28 von 28 lokalen Unit-Tests mit JUnit Jupiter 5.13.4 und Gson 2.14.0
-  erfolgreich
+- 28 von 28 lokalen Unit-Tests in Debug und Release erfolgreich
+- Android Lint ohne Fehler abgeschlossen
+- Debug-APK erfolgreich gebaut
 - `git diff --check` als Abschlussprüfung vorgesehen
 - zusätzliche Unit-Tests für negative Indizes, unzulässige Trickwerte,
   ungültige Spielerzahlen und beschädigtes JSON ergänzt
 
-Der vollständige Task `test lintDebug` konnte mangels lokal installiertem bzw.
-konfiguriertem Android SDK nicht bis zur Kompilierung ausgeführt werden. Vor
-einem Release ist dieser Lauf mit Android SDK 35 nachzuholen.
+Der vollständige Task `test lintDebug assembleDebug` wurde nach Installation
+von Android SDK 35 erfolgreich ausgeführt. Lint enthält noch nicht blockierende
+Warnungen, insbesondere zu Barrierefreiheit und ungenutzten Ressourcen.
 
 ## Verbleibende Risiken
 

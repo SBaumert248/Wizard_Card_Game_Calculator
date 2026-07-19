@@ -11,6 +11,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
 
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
@@ -168,7 +169,7 @@ class TestControllerWizardGame {
     @Test
     void reject_corrupt_json() throws IOException {
         Path saveFile = tempDir.resolve("corrupt.json");
-        Files.writeString(saveFile, "{not valid json");
+        Files.write(saveFile, "{not valid json".getBytes(StandardCharsets.UTF_8));
 
         assertFalse(game.loadFromJson(saveFile.toString()));
         assertFalse(game.isRunning());

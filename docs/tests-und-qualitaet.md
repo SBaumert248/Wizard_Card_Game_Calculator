@@ -40,12 +40,15 @@ Für UI-Tests mit verbundenem Gerät oder Emulator:
 .\gradlew.bat connectedAndroidTest
 ```
 
-Bei der Risikoüberarbeitung wurden der Android-unabhängige Java-Kern und seine
-Tests erfolgreich mit JDK 17 kompiliert. Alle 28 lokalen Unit-Tests liefen mit
-JUnit Jupiter 5.13.4 und Gson 2.14.0 erfolgreich. Der vollständige Gradle-Test-
-und Lint-Lauf konnte nicht gestartet werden, weil auf dem verwendeten Rechner
-kein Android SDK konfiguriert oder auffindbar war. Gradle 8.13 selbst wurde
-erfolgreich gestartet.
+Nach Installation des Android SDK wurde der vollständige Gradle-Lauf
+`test lintDebug assembleDebug` erfolgreich ausgeführt. Alle 28 lokalen
+Unit-Tests bestanden sowohl für Debug als auch für Release. Android Lint
+meldete keine Fehler; der Debug-Build erzeugte erfolgreich eine APK.
+
+Lint meldet weiterhin nicht blockierende Hinweise, vor allem zu ungenutzten
+Ressourcen sowie zur Barrierefreiheit bestehender Eingabefelder und Bilder.
+Diese sollten schrittweise abgearbeitet werden, ändern aber den erfolgreichen
+Prüfstatus nicht.
 
 ## Empfohlene nächste Tests
 

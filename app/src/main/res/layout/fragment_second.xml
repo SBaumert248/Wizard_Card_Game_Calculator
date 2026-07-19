@@ -144,7 +144,7 @@
             android:layout_margin="10sp"
             android:checked="true"
             android:elegantTextHeight="false"
-            android:gravity="center"
+            android:gravity="center_vertical|start"
             android:padding="16sp"
             android:showText="false"
             android:singleLine="false"

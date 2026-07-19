@@ -46,6 +46,7 @@ dependencies {
     // JUnit 5 (lokale Tests)
     testImplementation(libs.junit.jupiter.api)
     testRuntimeOnly(libs.junit.jupiter.engine)
+    testRuntimeOnly(libs.junit.platform.launcher)
 
     implementation("com.google.code.gson:gson:2.14.0")
 }
