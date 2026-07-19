@@ -100,9 +100,10 @@ Drei-Punkte-Menü die vollständige Spielverlaufsansicht. Die Tabelle enthält
 
 Die Unterspalten verwenden dieselben Symbole wie die Hauptspielseite:
 Gedankenblase, Hand mit Geldstücken und Pokal. Noch nicht gespielte Werte
-werden als `?` angezeigt. Die Tabelle kann horizontal und vertikal gescrollt
-werden. Über den Zurück-Pfeil gelangt man ohne Änderung des Spielstands zur
-aktuellen Runde zurück.
+werden als `?` angezeigt. Die Zeile der aktuellen Runde ist farblich
+hervorgehoben. Die Tabelle kann horizontal und vertikal gescrollt werden.
+Über den Zurück-Pfeil gelangt man ohne Änderung des Spielstands zur aktuellen
+Runde zurück; das Drei-Punkte-Menü steht dort sofort wieder zur Verfügung.
 
 ### 6. Partie abbrechen
 

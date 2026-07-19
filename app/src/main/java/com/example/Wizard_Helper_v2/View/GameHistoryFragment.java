@@ -111,25 +111,44 @@ public class GameHistoryFragment extends Fragment {
 
     private void addRound(int round, List<Integer> playerIds, WizardGame game) {
         TableRow row = new TableRow(requireContext());
-        row.addView(createTextCell(
+        boolean isCurrentRound = round == game.getRoundNumber();
+        TextView roundCell = createTextCell(
                 Integer.toString(round + 1),
                 true,
                 ROUND_CELL_WIDTH_DP,
                 1,
                 "history_round_" + round
-        ));
+        );
+        applyCurrentRoundStyle(roundCell, isCurrentRound);
+        row.addView(roundCell);
 
         for (int playerIndex = 0; playerIndex < playerIds.size(); playerIndex++) {
             int playerId = playerIds.get(playerIndex);
             String tagPrefix = "history_" + round + "_" + playerIndex;
-            row.addView(createTextCell(formatValue(game.getPrediction(playerId, round)), false,
-                    DATA_CELL_WIDTH_DP, 1, tagPrefix + "_prediction"));
-            row.addView(createTextCell(formatValue(game.getResult(playerId, round)), false,
-                    DATA_CELL_WIDTH_DP, 1, tagPrefix + "_result"));
-            row.addView(createTextCell(formatValue(game.getScore(playerId, round)), false,
-                    DATA_CELL_WIDTH_DP, 1, tagPrefix + "_score"));
+            TextView predictionCell = createTextCell(
+                    formatValue(game.getPrediction(playerId, round)),
+                    false, DATA_CELL_WIDTH_DP, 1, tagPrefix + "_prediction");
+            TextView resultCell = createTextCell(
+                    formatValue(game.getResult(playerId, round)),
+                    false, DATA_CELL_WIDTH_DP, 1, tagPrefix + "_result");
+            TextView scoreCell = createTextCell(
+                    formatValue(game.getScore(playerId, round)),
+                    false, DATA_CELL_WIDTH_DP, 1, tagPrefix + "_score");
+            applyCurrentRoundStyle(predictionCell, isCurrentRound);
+            applyCurrentRoundStyle(resultCell, isCurrentRound);
+            applyCurrentRoundStyle(scoreCell, isCurrentRound);
+            row.addView(predictionCell);
+            row.addView(resultCell);
+            row.addView(scoreCell);
         }
         binding.historyTable.addView(row);
+    }
+
+    private void applyCurrentRoundStyle(TextView cell, boolean isCurrentRound) {
+        cell.setSelected(isCurrentRound);
+        if (isCurrentRound) {
+            cell.setBackgroundResource(R.drawable.history_current_round_background);
+        }
     }
 
     private TextView createTextCell(

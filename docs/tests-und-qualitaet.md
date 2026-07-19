@@ -60,7 +60,9 @@ Lücken zwischen Runden und die Stichsummenregel des Master-Modus ab.
 - korrekte Verlaufssymbole, aktuelle Eingaben, kumulierte Punkte und leere
   Zukunftswerte sowie
 - Rückkehr aus der Verlaufsansicht zur weiterhin vollständig befüllten
-  Hauptspielansicht.
+  Hauptspielansicht,
+- erneute Verfügbarkeit des Drei-Punkte-Menüs nach der Rückkehr sowie
+- Markierung ausschließlich der aktuellen Runde in der Verlaufstabelle.
 
 Jeder Test löscht zuvor gezielt Einstellungen, Spielernamen, `game.json` und
 den Singleton-Zustand. Dadurch sind die Tests voneinander und von zuvor
@@ -114,9 +116,9 @@ Kombinierter Stand nach 42 Unit-Tests und sechs UI-Tests:
 | --- | ---: |
 | Model | 100,0 % |
 | Controller | 95,0 % |
-| View | 91,8 % |
-| Gesamt | 93,3 % |
-| Branches gesamt | 76,8 % |
+| View | 92,0 % |
+| Gesamt | 93,4 % |
+| Branches gesamt | 77,0 % |
 
 Der reine Unit-Test-Bericht bleibt bewusst verfügbar, weil er schnell und ohne
 Android-Gerät ausgeführt werden kann. Der kombinierte Bericht ergänzt die

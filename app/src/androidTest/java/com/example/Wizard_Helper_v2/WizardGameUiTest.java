@@ -12,6 +12,7 @@ import static androidx.test.espresso.assertion.ViewAssertions.doesNotExist;
 import static androidx.test.espresso.matcher.ViewMatchers.isChecked;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.isNotChecked;
+import static androidx.test.espresso.matcher.ViewMatchers.isSelected;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withContentDescription;
 import static androidx.test.espresso.matcher.ViewMatchers.withTagValue;
@@ -158,6 +159,9 @@ public class WizardGameUiTest {
         onView(withTagValue(is("history_0_0_result"))).check(matches(withText("1")));
         onView(withTagValue(is("history_0_0_score"))).check(matches(withText("30")));
         onView(withTagValue(is("history_1_0_prediction"))).check(matches(withText("?")));
+        onView(withTagValue(is("history_round_0"))).check(matches(isSelected()));
+        onView(withTagValue(is("history_0_0_score"))).check(matches(isSelected()));
+        onView(withTagValue(is("history_round_1"))).check(matches(not(isSelected())));
 
         pressBack();
 
@@ -166,6 +170,8 @@ public class WizardGameUiTest {
         onView(withId(R.id.editThinkPlayer1)).check(matches(withText("1")));
         onView(withId(R.id.editGetWinPlayer1)).check(matches(withText("1")));
         onView(withId(R.id.actPointsPlayer1)).check(matches(withText("30")));
+        openActionBarOverflowOrOptionsMenu(context);
+        onView(withText(R.string.cancel_actual_game)).check(matches(isDisplayed()));
     }
 
     private void launchAndStartGame() {

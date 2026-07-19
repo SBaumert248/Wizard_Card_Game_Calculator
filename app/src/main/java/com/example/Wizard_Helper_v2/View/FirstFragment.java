@@ -257,6 +257,7 @@ public class FirstFragment extends Fragment {
         super.onResume();
         // Lade Einstellungen, wenn das Fragment angezeigt wird
         loadSettingsAndApply();
+        requireActivity().invalidateOptionsMenu();
     }
 
     private void loadSettingsAndApply() {
