@@ -132,5 +132,5 @@ werden.
 Namespace und Application-ID lauten
 `de.sbaumert.wizardhelper`. Der persönliche, kleingeschriebene Paketname
 ersetzt die frühere Beispiel-Domain und identifiziert die App eindeutig.
-Release-Minifizierung ist deaktiviert. Für Version 1.3.1 steht der
-fortlaufende `versionCode` auf 4 und der sichtbare `versionName` auf 1.3.1.
+Release-Minifizierung ist deaktiviert. Für Version 1.4.0 steht der
+fortlaufende `versionCode` auf 5 und der sichtbare `versionName` auf 1.4.0.
